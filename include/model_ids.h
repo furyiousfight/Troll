@@ -548,6 +548,7 @@
 #ifdef IA8_30FPS_COINS
 #define MODEL_SILVER_COIN                 0xE2        // silver_coin_geo
 #define MODEL_SILVER_COIN_NO_SHADOW       0xE3        // silver_coin_no_shadow_geo 
+#define MODEL_KATANA_A                    0xF2        // katana_a_button_geo
 #define MODEL_PSYCH_WALK                  0xF3        // psych_walk_geo
 #define MODEL_PSYCH_STAND                 0xF4        // psych_stand_geo
 #define MODEL_ZERO_SIT                    0xF5        // zero_sit_geo

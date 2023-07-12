@@ -309,7 +309,11 @@
 #define TEXT_DOOR_TROLL_18 _("You know what. Go ahead, open the door as much as you want.\nI'm leaving.") // 19
 #define TEXT_DOOR_TROLL_19 _("Oh my god you're still going.") // 30
 
-#define TEXT_THERAPY_1 _("Please... Come in and take a seat.")
+#define TEXT_THERAPY_RESPONSE_1 _("Whats going on?")
+#define TEXT_THERAPY_RESPONSE_2 _("Who am I?")
+#define TEXT_THERAPY_RESPONSE_3 _("What game is this?")
+
+#define TEXT_THERAPY_RESPONSE_4 _("The Mushroom Kingdom...")
 
 #endif
 

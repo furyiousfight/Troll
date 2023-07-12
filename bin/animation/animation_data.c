@@ -31,6 +31,10 @@ ALIGNED8 const u8 fireplace[] = {
 #include "actors/amp/fireplace.rgba16.inc.c"
 };
 
+ALIGNED8 const u8 katana_a[] = {
+#include "actors/amp/katana_a.rgba16.inc.c"
+};
+
 ALIGNED8 const u8 psych_sit[] = {
 #include "actors/amp/psychiatrist_sit.rgba16.inc.c"
 };

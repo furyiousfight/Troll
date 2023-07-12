@@ -692,14 +692,7 @@ void set_camera_height(struct Camera *c, f32 goalHeight) {
     f32 marioFloorHeight, marioCeilHeight, camFloorHeight;
     f32 baseOff = 125.f;
 
-    if (gCurrLevelNum == LEVEL_BOB){
-        c->pos[0] = 0;
-        c->pos[1] = 1248;
-        c->pos[2] = 4825;
-        c->focus[0] = 0;
-        c->focus[1] = 1248;
-        c->focus[2] = -716;
-    }
+
     f32 camCeilHeight = find_ceil(c->pos[0], gLakituState.goalPos[1] - 50.f, c->pos[2], &surface);
 #ifdef FAST_VERTICAL_CAMERA_MOVEMENT
     f32 approachRate = 20.0f;
@@ -2793,6 +2786,14 @@ void update_lakitu(struct Camera *c) {
     Vec3f newFoc;
     f32 distToFloor;
     s16 newYaw;
+        if (gCurrLevelNum == LEVEL_BOB){
+        c->pos[0] = 0;
+        c->pos[1] = 1300;
+        c->pos[2] = 4825;
+        c->focus[0] = 0;
+        c->focus[1] = 1300;
+        c->focus[2] = -716;
+    }
 
     if (!(gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN)) {
         newYaw = next_lakitu_state(newPos, newFoc, c->pos, c->focus, sOldPosition, sOldFocus,

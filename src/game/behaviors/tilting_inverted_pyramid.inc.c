@@ -20,7 +20,9 @@
 #include "actors/zero/geo_header.h"
 #include "actors/zero_walk/geo_header.h"
 #include "actors/zero_sit/geo_header.h"
+#include "actors/katana_a_button/geo_header.h"
 extern struct MarioState *gMarioState;
+extern u8 Therapy_State;
 extern Bool8 InPortal;
 extern u8 DRExplosion[];
 extern u8 NetherPortal[];
@@ -35,6 +37,7 @@ extern u8 fireplace[];
 extern u8 zero_idle[];
 extern u8 zero_walk[];
 extern u8 zero_sit[];
+extern u8 katana_a[];
 u8 PsychSitFrame;
 u8 PsychStandFrame;
 u8 PsychWalkFrame;
@@ -45,6 +48,13 @@ u8 PsychState;
 Bool8 WalkToChair;
 Bool8 WalkingLeft;
 Bool8 WalkingRight;
+u8 AFade;
+enum AButtonFadeStates{
+    A_FADE_NONE,
+    A_FADE_OPAQUE,
+    A_FADE_IN,
+    A_FADE_OUT
+};
 
 enum PsychStates{
     PSYCH_NONE,
@@ -57,11 +67,13 @@ enum PsychStates{
 };
 
 u8 FireplaceFrame;
+u8 AFrame;
 u8 LoopOffset;
 u8 ZeroIdleFrame;
 u8 ZeroWalkFrame;
 u8 ZeroSitFrame;
 Bool8 ZeroSitting;
+Bool8 SitRange;
 
 void bhv_platform_normals_init(void) {
     vec3f_set(&o->oTiltingPyramidNormalVec, 0.0f, 1.0f, 0.0f);
@@ -183,6 +195,9 @@ enum FRISK_STATE{
 }
 
 */
+void bhv_psychiatrist_init(void){
+    PsychState = PSYCH_SIT;
+}
 
 void bhv_psychiatrist_loop(void){
     //print_text_fmt_int(20,20, "Psych PENIS %d", PsychState);
@@ -190,7 +205,7 @@ void bhv_psychiatrist_loop(void){
     cur_obj_move_standard(-78);
     cur_obj_update_floor_and_walls();
     
-    if (ZeroSitting == FALSE){
+    if (PsychState == PSYCH_SIT){
         o->oMoveAngleYaw = DEGREES(-90);
         o->oFaceAngleYaw = DEGREES(90);
         PsychState = PSYCH_SIT;
@@ -209,7 +224,9 @@ void bhv_psychiatrist_loop(void){
             LoopOffset = FALSE;
             o->oTimer = 0;
         }
-    } else if (ZeroSitting == TRUE && PsychState == PSYCH_SIT){
+    } if (ZeroSitting == TRUE && Therapy_State == 2){
+        Therapy_State = 3;
+    } if (Therapy_State == 100){
         cur_obj_set_model(MODEL_PSYCH_STAND);
         u8 *texture_location_in_ram = segmented_to_virtual(&psych_stand_standupdefault_rgba16);
     dma_read(texture_location_in_ram,(PsychStandFrame*2480)+psych_stand,(PsychStandFrame*2480)+psych_stand+2480);
@@ -296,19 +313,23 @@ if (gPlayer1Controller->stickX != 0 && ZeroSitting == FALSE && WalkToChair == FA
         }
 }
 if (ZeroSitting == FALSE && WalkToChair == FALSE){
-    if (o->oPosX > -797.0f && o->oPosX < 203.0f){
+    if (o->oPosX > -1097.0f && o->oPosX < 403.0f){
         if (o->oPosX > -387.0f && o->oPosX < -207.0f){
-            print_text(20,50, "imminent sit range");
+
             if (gPlayer1Controller->buttonPressed & A_BUTTON){
                 ZeroSitting = TRUE;
             }
         } else if (gPlayer1Controller->buttonPressed & A_BUTTON){
         WalkToChair = TRUE;
         }
-        print_text(20,20, "sit range");
+
+        SitRange = TRUE;
         
     
 
+    } else {
+
+        SitRange = FALSE;
     }
 }
 if (WalkToChair == TRUE){
@@ -345,4 +366,44 @@ if (WalkToChair == TRUE){
         }
     
 }
+}
+void bhv_a_press_init(void){
+    o->oOpacity = 0;
+}
+void bhv_a_press_loop(void){
+    if (Therapy_State == 2){
+        if (o->oPosY > 898){
+            approach_f32_symmetric_bool(&o->oPosY, 898.0f, 50.0f);
+        }
+    }
+    if (SitRange == TRUE && WalkToChair == FALSE && ZeroSitting == FALSE){
+        cur_obj_set_model(MODEL_KATANA_A);
+        u8 *texture_location_in_ram = segmented_to_virtual(&katana_a_button_spr_xbox_a_0_rgba16);
+        dma_read(texture_location_in_ram,(AFrame*448)+katana_a,(AFrame*448)+katana_a+448);
+        if (o->oTimer > 10) {
+        AFrame++;
+        o->oTimer = 0;
+        } if (AFrame > 1){
+            AFrame = 0;
+        } if (o->oOpacity < 225){
+            o->oOpacity += 30;
+            AFade = A_FADE_IN;
+        } else if (o->oOpacity >= 225){
+            o->oOpacity = 255;
+            AFade = A_FADE_OPAQUE;
+        }
+    } else{
+        if (o->oOpacity > 30){
+            o->oOpacity -= 30;
+            AFade = A_FADE_OUT;
+        } else if (o->oOpacity <= 30){
+            o->oOpacity = 0;
+            AFade = A_FADE_NONE;
+            AFrame = 0;
+        }
+    }
+}
+
+void bhv_textbox_loop(void){
+
 }

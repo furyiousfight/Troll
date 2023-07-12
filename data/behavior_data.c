@@ -6108,6 +6108,8 @@ const BehaviorScript bhvNetherPortal[] = {
 const BehaviorScript bhvPsychiatrist[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_psychiatrist_init),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_psychiatrist_loop),
     END_LOOP(),
@@ -6116,6 +6118,7 @@ const BehaviorScript bhvPsychiatrist[] = {
 const BehaviorScript bhvFireplace[] = {
     BEGIN(OBJ_LIST_SURFACE),
     OR_INT(oFlags, (OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
     BEGIN_LOOP(),
         CALL_NATIVE(bhv_fireplace_loop),
     END_LOOP(),
@@ -6132,5 +6135,14 @@ const BehaviorScript bhvZero[] = {
     END_LOOP(),
 };
 
+const BehaviorScript bhvKatanaA[] = {
+    BEGIN(OBJ_LIST_PUSHABLE),
+    OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
+    SET_FLOAT(oDrawingDistance, 20000),
+    CALL_NATIVE(bhv_a_press_init),
+    BEGIN_LOOP(),
+        CALL_NATIVE(bhv_a_press_loop),
+    END_LOOP(),
+};
 
 

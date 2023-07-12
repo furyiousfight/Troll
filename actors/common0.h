@@ -199,4 +199,10 @@ extern const Collision unknown_seg8_collision_080262F8[];
 
 #include "MinecraftPortal/header.h"
 
+#include "textbox_1/header.h"
+
+#include "desicionbox/header.h"
+
+#include "desicionboxrim/header.h"
+
 #endif

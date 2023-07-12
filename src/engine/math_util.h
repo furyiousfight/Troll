@@ -517,6 +517,7 @@ void vec3f_sub (Vec3f dest, const Vec3f a               );
 void vec3i_sub (Vec3i dest, const Vec3i a               );
 void vec3s_sub (Vec3s dest, const Vec3s a               );
 void vec3f_diff(Vec3f dest, const Vec3f a, const Vec3f b);
+f32 lerp(f32 a, f32 b, f32 f);
 void vec3i_diff(Vec3i dest, const Vec3i a, const Vec3i b);
 void vec3s_diff(Vec3s dest, const Vec3s a, const Vec3s b);
 void vec3f_mul (Vec3f dest, const Vec3f a               );

@@ -27,6 +27,7 @@ extern u8 frisk_down[];
 u8 third_speed;
 u8 frame;
 u8 IntroDeath;
+extern Bool8 InPortal;
 extern u8 MinecraftTrans;
 extern u8 MinecraftWarp;
 /**
@@ -272,12 +273,17 @@ void bhv_mario_update(void) {
     if (MinecraftWarp == TRUE){
         
     initiate_warp(LEVEL_BOB, 0x01, 0x0A, WARP_FLAGS_NONE);
-    
-    MinecraftWarp = FALSE;
+
     }
     if (gCurrLevelNum == LEVEL_BOB){
+                MinecraftTrans = FALSE;
+        MinecraftWarp = FALSE;
+                gMarioState->floor->type = SURFACE_DEFAULT;
+                InPortal = FALSE;
         set_mario_action(gMarioState, ACT_UNINITIALIZED, 0);
+
         cur_obj_set_model(MODEL_NONE);
+
     }
     //print_text_fmt_int(180, 20, "Warp %d", MinecraftWarp);
     //print_text_fmt_int(180, 40, "Trans %d", MinecraftTrans);

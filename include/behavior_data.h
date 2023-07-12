@@ -333,6 +333,7 @@ extern const BehaviorScript bhvNetherPortal[];
 extern const BehaviorScript bhvPsychiatrist[];
 extern const BehaviorScript bhvFireplace[];
 extern const BehaviorScript bhvZero[];
+extern const BehaviorScript bhvKatanaA[];
 extern const BehaviorScript bhvSignOnWall[];
 extern const BehaviorScript bhvHomingAmp[];
 extern const BehaviorScript bhvCirclingAmp[];

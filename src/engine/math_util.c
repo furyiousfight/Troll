@@ -1008,7 +1008,10 @@ Bool32 approach_s32_bool(s32 *current, s32 target, s32 inc, s32 dec) {
     *current = approach_s32(*current, target, inc, dec);
     return (*current != target);
 }
-
+f32 lerp(f32 a, f32 b, f32 f)
+{
+    return (a * (1.0 - f)) + (b * f);
+}
 /**
  * Return the value 'current' after it tries to approach target, going up at
  * most 'inc' and going down at most 'dec'.

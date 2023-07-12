@@ -124,6 +124,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_ZERO,                    zero_geo),
     LOAD_MODEL_FROM_GEO(MODEL_ZERO_WALK,               zero_walk_geo),
     LOAD_MODEL_FROM_GEO(MODEL_ZERO_SIT,                zero_sit_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_KATANA_A,                katana_a_button_geo),
 
 #ifdef IA8_30FPS_COINS
     LOAD_MODEL_FROM_GEO(MODEL_SILVER_COIN,             silver_coin_geo),

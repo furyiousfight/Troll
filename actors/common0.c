@@ -82,3 +82,6 @@ UNUSED static const u64 binid_18 = 18;
 
 #include "MinecraftLoad/model.inc.c"
 #include "MinecraftPortal/model.inc.c"
+#include "textbox_1/model.inc.c"
+#include "desicionbox/model.inc.c"
+#include "desicionboxrim/model.inc.c"

@@ -59,27 +59,26 @@ u8 katana_a_button_spr_xbox_a_0_rgba16[] = {
 	
 };
 
-Vtx katana_a_button_katana_a_button_mesh_layer_2_vtx_0[4] = {
+Vtx katana_a_button_katana_a_button_001_mesh_layer_5_vtx_0[4] = {
 	{{ {-82, -93, 0}, 0, {0, 512}, {255, 255, 255, 255} }},
 	{{ {82, -93, 0}, 0, {448, 512}, {255, 255, 255, 255} }},
 	{{ {82, 93, 0}, 0, {448, 0}, {255, 255, 255, 255} }},
 	{{ {-82, 93, 0}, 0, {0, 0}, {255, 255, 255, 255} }},
 };
 
-Gfx katana_a_button_katana_a_button_mesh_layer_2_tri_0[] = {
-	gsSPVertex(katana_a_button_katana_a_button_mesh_layer_2_vtx_0 + 0, 4, 0),
+Gfx katana_a_button_katana_a_button_001_mesh_layer_5_tri_0[] = {
+	gsSPVertex(katana_a_button_katana_a_button_001_mesh_layer_5_vtx_0 + 0, 4, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSPEndDisplayList(),
 };
 
 
-Gfx mat_katana_a_button_f3dlite_material_009_layer2[] = {
+Gfx mat_katana_a_button_f3dlite_material_009[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, TEXEL0, 0, ENVIRONMENT, 0),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, ENVIRONMENT, 0),
 	gsSPClearGeometryMode(G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_POINT),
-	gsDPSetRenderMode(GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM) | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | Z_CMP | IM_RD | CVG_DST_WRAP | ZMODE_DEC | CVG_X_ALPHA | ALPHA_CVG_SEL),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 14, katana_a_button_spr_xbox_a_0_rgba16),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
@@ -89,18 +88,17 @@ Gfx mat_katana_a_button_f3dlite_material_009_layer2[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_katana_a_button_f3dlite_material_009_layer2[] = {
+Gfx mat_revert_katana_a_button_f3dlite_material_009[] = {
 	gsDPPipeSync(),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_BILERP),
-	gsDPSetRenderMode(G_RM_AA_ZB_OPA_DECAL, G_RM_AA_ZB_OPA_DECAL2),
 	gsSPEndDisplayList(),
 };
 
-Gfx katana_a_button_katana_a_button_mesh_layer_2[] = {
-	gsSPDisplayList(mat_katana_a_button_f3dlite_material_009_layer2),
-	gsSPDisplayList(katana_a_button_katana_a_button_mesh_layer_2_tri_0),
-	gsSPDisplayList(mat_revert_katana_a_button_f3dlite_material_009_layer2),
+Gfx katana_a_button_katana_a_button_001_mesh_layer_5[] = {
+	gsSPDisplayList(mat_katana_a_button_f3dlite_material_009),
+	gsSPDisplayList(katana_a_button_katana_a_button_001_mesh_layer_5_tri_0),
+	gsSPDisplayList(mat_revert_katana_a_button_f3dlite_material_009),
 	gsSPEndDisplayList(),
 };
 

@@ -31,7 +31,30 @@
 #include "actors/MinecraftPortal/header.h"
 #include "seq_ids.h"
 #include "src/game/fb_effects.h"
-s32 TextAlpha;
+#include "actors/textbox_1/header.h"
+#include "actors/desicionbox/header.h"
+#include "actors/desicionboxrim/header.h"
+u8 rtext_display[400];
+u8 rtext_read[400];
+u8 blank_text[400];
+u8 *rtext_insert_pointer[3];
+u8 rtext_read_index = 0;
+u8 rtext_dialog_delay = 0;
+u8 rtext_done = FALSE;
+u8 rtext_choice = 0;
+u8 rtext_choice_amount = 0;
+u8 rtext_choice_index = 0;
+u8 rtext_offset_buffer[4];
+u16 rtext_current_read_dialog = 0;
+    u8 selected = 0;
+    u8 selectionCooldown;
+    
+    u8 textsteps = 1;
+    u8 text_advance;
+f32 rtext_opacity = 0.0f;
+u8 TextAlpha;
+u8 TherapyTextAlpha = 0;
+u8 TextFadeTimer = 0;
 Bool8 TextFadeOut;
 extern s32 DoorTrollTimer;
 extern u8 DoorTrollCounter;
@@ -43,7 +66,66 @@ Bool8 MinecraftTrans;
 Bool8 MinecraftWarp;
 u32 MinecraftLoadingBar;
 Bool8 InPortal;
+u8 Therapy_State;
+u16 Therapy_Timer;
+u16 responseTimer;
+u16 PsychTextTimer;
+float TextBoxScale = 0.0f;
+u8 finalChoice;
+s32 dialog_id;
 
+
+u16 choiceOneText[3];
+
+u16 choiceOneTextAlpha;
+u16 choiceTwoTextAlpha;
+u16 choiceThreeTextAlpha;
+
+u16 redResponseTextAlpha;
+u16 redResponseAlpha;
+u16 choiceOneAlpha;
+u16 choiceOneAlpha2;
+u16 choiceTwoAlpha;
+u16 choiceTwoAlpha2;
+u16 choiceThreeAlpha;
+u16 choiceThreeAlpha2;
+u16 choiceTwo[2];
+u16 choiceThree[2];
+u16 responseOffset[] = {20, 75, 160, 300, 0, 0, 0};
+// 0 start pos, 1 text default pos, 2 default pos, 3 end pos, 4 custom pos box 1, 5 custom pos box 2-3, 6 text 1, 7 text 2
+
+
+u8 ConfirmationColorsRed[2];
+u8 ConfirmationColorsBlue1[2];
+u8 ConfirmationColorsBlue2[2];
+u8 ConfirmationColorsBlue3[2];
+
+u16 textLength;
+
+u8 responseState;
+enum ResponseStates {
+    RESPONSE_STATE_NONE,
+    RESPONSE_STATE_RED_FADE_IN,
+    RESPONSE_STATE_RED,
+    RESPONSE_STATE_RED_FADE_OUT,
+    RESPONSE_STATE_FADE_IN,
+    RESPONSE_STATE_MAIN,
+    RESPONSE_STATE_CONFIRM,
+    RESPONSE_STATE_FADE_OUT,
+    RESPONSE_STATE_SELECTED,
+};
+
+Bool8 endResponseEarly;
+Bool8 endResponseRed;
+
+u8 TextBoxState;
+enum TextBoxStates {
+    TEXTBOX_STATE_NONE,
+    TEXTBOX_STATE_GROWING,
+    TEXTBOX_STATE_FINISHED,
+    TEXTBOX_STATE_SHRINKING,
+};
+extern Bool8 ZeroSitting;
 u8 Door_Troll_1[] = { TEXT_DOOR_TROLL_1 };
 u8 Door_Troll_2[] = { TEXT_DOOR_TROLL_2 };
 u8 Door_Troll_3[] = { TEXT_DOOR_TROLL_3 };
@@ -84,6 +166,11 @@ u8 *Door_Troll_Array[] = {
 &Door_Troll_18,
 &Door_Troll_19,
 };
+
+u8 Text_Therapy_Response_1[] = { TEXT_THERAPY_RESPONSE_1 };
+u8 Text_Therapy_Response_2[] = { TEXT_THERAPY_RESPONSE_2 };
+u8 Text_Therapy_Response_3[] = { TEXT_THERAPY_RESPONSE_3 };
+Bool8 moveon;
 u8 TrollNum;
 
 
@@ -446,7 +533,33 @@ void render_game(void) {
         gDPSetScissor(gDisplayListHead++, G_SC_NON_INTERLACE, 0, gBorderHeight, SCREEN_WIDTH,
                       SCREEN_HEIGHT - gBorderHeight);
         render_hud();
+        if (gCurrLevelNum ==LEVEL_BOB){
+                print_text_fmt_int(20, 20, "Therapy State: %d", Therapy_State);
+            switch (Therapy_State){
+                case 0:
+                    therapy_timer_increment_to_state(30,1);
+                    break;
+                case 1:
+                    render_psych_text_box(Therapy_State, DIALOG_001, &textbox_1_textbox_1_003_mesh, 95, 101, 20);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    therapy_timer_increment_to_state(30,4);
+                    break;
+                case 4:
+                    render_psych_text_box(Therapy_State, DIALOG_002, &textbox_1_textbox_1_003_mesh, 95, 101, 100);
+                    respondable_dialog(60);
+                    break;
+            }
+        }
 
+
+
+
+
+
+        
 
 if (InPortal == TRUE && MinecraftTrans == FALSE){
     if (PortalTransTimer < 255) {
@@ -600,4 +713,437 @@ Vtx *MinecraftLoadingBar = segmented_to_virtual(&MinecraftLoad_LoadingScreen_mes
 #if PUPPYPRINT_DEBUG
     puppyprint_render_profiler();
 #endif
+}
+
+void read_dialog(s32 dialog_id) {
+    u16 char_in_array;
+    u16 iwrite;
+
+    u8 **dialogTable = segmented_to_virtual(seg2_dialog_table);
+    struct DialogEntry *sdialog = segmented_to_virtual(dialogTable[dialog_id]);
+    u8 *sstr = segmented_to_virtual(sdialog->str);
+
+    rtext_current_read_dialog = dialog_id;
+
+    char_in_array = 0;
+    iwrite = 0;
+    while(sstr[char_in_array] != DIALOG_CHAR_TERMINATOR) {
+        
+            rtext_read[iwrite] = sstr[char_in_array];
+            iwrite++;
+            
+        char_in_array++;
+    }
+    
+
+    rtext_read[iwrite] = DIALOG_CHAR_TERMINATOR;
+    rtext_read_index = 0;
+}
+
+void type_on_text(textx, texty){
+ if (TextBoxState == TEXTBOX_STATE_FINISHED){
+        for (text_advance=0;text_advance<textsteps;text_advance++) {
+            if (rtext_read[rtext_read_index] != DIALOG_CHAR_TERMINATOR) {
+                if (rtext_dialog_delay == 0) {
+                    rtext_display[rtext_read_index] = rtext_read[rtext_read_index];
+                    rtext_display[rtext_read_index+1] = DIALOG_CHAR_TERMINATOR;
+                    TherapyTextAlpha = 255;
+
+                    if (rtext_read[rtext_read_index] != DIALOG_CHAR_SPACE) {
+
+                            play_sound(SOUND_MENU_THANK_YOU_PLAYING_MY_GAME,gGlobalSoundSource);
+                        rtext_dialog_delay = 2;
+                    }
+                    if (rtext_read[rtext_read_index] == DIALOG_CHAR_COMMA) {
+                        rtext_dialog_delay = 4;
+                    }
+                    if (rtext_read[rtext_read_index] == 0x3F) {
+                        rtext_dialog_delay = 6;
+                    }
+                    if (rtext_read[rtext_read_index] == 0xF2) {
+                        rtext_dialog_delay = 6;
+                    }
+
+                    rtext_read_index ++;
+                } else {
+                    rtext_dialog_delay --;
+                }
+            } else {
+                //done reading
+                rtext_done = TRUE;
+                
+                
+                
+                
+            }
+    }
+ } else { 
+    
+ }
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+        gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, TherapyTextAlpha);
+        print_generic_string(textx,texty, rtext_display);//rtext_pressa
+        
+}
+
+
+void render_psych_text_box(state, dialog_id, DisplayList, textx, texty, postdialogframes){
+            textLength = postdialogframes;
+            Bool8 init_dialog = FALSE;
+            //print_text_fmt_int(10, 15, "Therapy Timer: %d", Therapy_Timer);
+            //print_text_fmt_int(10, 30, "TextFadeTimer: %d", TextFadeTimer);
+            //print_text_fmt_int(10, 30, "TherapyTextAlpha: %d", TherapyTextAlpha);
+            //print_text_fmt_int(10, 45, "TextBoxState: %d", TextBoxState);
+            if (TextBoxState == TEXTBOX_STATE_NONE){
+                TextFadeTimer = 0;
+                TextBoxState = TEXTBOX_STATE_GROWING;
+            } if (TextBoxState == TEXTBOX_STATE_GROWING){
+                if (TextBoxScale < 1.0f) {
+                TextBoxScale+=0.15f;
+                } if (TextBoxScale >= 1.0f) {
+                    TextBoxState = TEXTBOX_STATE_FINISHED;
+
+                    init_dialog = TRUE;
+                    TextBoxScale = 1.0f;
+                }
+                create_dl_translation_matrix(G_MTX_PUSH, 185, 118, 0);
+                create_dl_scale_matrix(G_MTX_PUSH, 1.0f, TextBoxScale, 1.0f);
+                gDPSetRenderMode(gDisplayListHead++,G_RM_TEX_EDGE, G_RM_TEX_EDGE2);
+                gSPDisplayList(gDisplayListHead++, DisplayList);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW); 
+
+                
+            } if (TextBoxState == TEXTBOX_STATE_FINISHED){
+                create_dl_translation_matrix(G_MTX_PUSH, 185, 118, 0);
+                gDPSetRenderMode(gDisplayListHead++,G_RM_TEX_EDGE, G_RM_TEX_EDGE2);
+                gSPDisplayList(gDisplayListHead++, DisplayList);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+                if (init_dialog == TRUE){
+                read_dialog(dialog_id);
+                init_dialog = FALSE;
+                }
+                type_on_text(textx,texty);
+                if ((rtext_read[rtext_read_index] == DIALOG_CHAR_TERMINATOR)){
+                    TextFadeTimer++;
+
+                
+                    if (responseState == RESPONSE_STATE_NONE){
+                    if (TherapyTextAlpha > 25){
+                    TherapyTextAlpha-=25;
+                    } else if (TherapyTextAlpha <= 25){
+                        TherapyTextAlpha = 0;
+                        TextBoxState = TEXTBOX_STATE_SHRINKING;
+                        TextBoxScale = 1.0f;
+                    }
+                    }
+                }
+                }
+                 if (TextBoxState == TEXTBOX_STATE_SHRINKING){
+                    if (TextBoxScale > 0.0f){
+                    TextBoxScale-=0.15f;
+                 } else if (TextBoxScale <= 0.0f){
+                    TextBoxState = TEXTBOX_STATE_NONE;
+                    Therapy_State = state + 1;
+                    TextBoxScale = 0.0f;
+
+                    }
+                    
+                    create_dl_translation_matrix(G_MTX_PUSH, 185, 118, 0);
+                create_dl_scale_matrix(G_MTX_PUSH, 1.0f, TextBoxScale, 1.0f);
+                gDPSetRenderMode(gDisplayListHead++,G_RM_TEX_EDGE, G_RM_TEX_EDGE2);
+                gSPDisplayList(gDisplayListHead++, DisplayList);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW); 
+                }
+            }
+
+void therapy_timer_increment_to_state(frames_spent, intended_state){
+    Therapy_Timer++;
+    if (Therapy_Timer > frames_spent){
+        Therapy_Timer = 0;
+        Therapy_State = intended_state;
+    }
+}
+
+void respondable_dialog(redWindow, ansRedStateReturn, ans1StateReturn, ans2StateReturn, ans3StateReturn){
+
+    print_text_fmt_int(10, 15, "responseState: %d", responseState);
+    if (selectionCooldown > 0){
+        selectionCooldown--;
+    } if (responseState == RESPONSE_STATE_NONE && TextBoxState == TEXTBOX_STATE_FINISHED){
+        finalChoice = 0;
+        choiceOneAlpha = 0;
+        choiceOneAlpha2 = 0;
+        choiceOneTextAlpha = 0;
+        choiceOneText[0] = 0x97;
+        choiceOneText[1] = 0x02;
+        choiceOneText[2] = 0x02;
+        if (redWindow > 0){
+        responseState = RESPONSE_STATE_RED_FADE_IN;
+        } else {
+        responseState = RESPONSE_STATE_FADE_IN;
+        }
+
+    } if (responseState == RESPONSE_STATE_RED_FADE_IN){
+
+        if (responseOffset[4] < responseOffset[2]){
+            responseOffset[4]+=10;
+        } if (responseOffset[4] >= responseOffset[2]){
+            responseOffset[4] = responseOffset[2];
+        }
+        if (redResponseTextAlpha < 255) {
+            redResponseTextAlpha+=13;
+            redResponseAlpha+=13;
+        } if (redResponseTextAlpha >= 255) {
+            redResponseTextAlpha = 255;
+            redResponseAlpha = 255;
+            responseState = RESPONSE_STATE_RED;
+        }
+        print_text_fmt_int(20,195, "choiceOneAlpha2: %d", choiceOneAlpha2);
+        print_text_fmt_int(20,180, "choiceOneAlpha: %d", choiceOneAlpha);
+        print_text_fmt_int(20,165, "ResponseOffset4: %d", responseOffset[4]);
+
+    }
+    if (responseState == RESPONSE_STATE_RED){
+        if (gPlayer1Controller->buttonPressed & A_BUTTON){
+            finalChoice = 0;
+        endResponseRed = TRUE;
+        }
+        responseTimer++;
+        print_text_fmt_int(20,195, "responseTimer: %d", responseTimer);
+        if (responseTimer >= redWindow && endResponseRed == FALSE){
+            responseState = RESPONSE_STATE_RED_FADE_OUT;
+            responseTimer = 0;
+        } else if (endResponseRed == TRUE){
+            responseState = RESPONSE_STATE_SELECTED;
+            responseTimer = 0;
+        }
+    } if (responseState == RESPONSE_STATE_RED_FADE_OUT){
+
+            responseOffset[4]+=10;
+
+        if (redResponseTextAlpha > 25) {
+            redResponseTextAlpha-=25;
+            redResponseAlpha-=25;
+        } if (redResponseTextAlpha <= 25) {
+            redResponseTextAlpha = 0;
+            redResponseAlpha = 0;
+            responseState = RESPONSE_STATE_FADE_IN;
+            choiceOneAlpha = 0;
+            choiceOneAlpha2 = 0;
+            choiceTwoAlpha = 0;
+            choiceTwoAlpha2 = 0;
+            choiceThreeAlpha = 0;
+            choiceThreeAlpha2 = 0;
+            responseOffset[4]=0;
+            
+        }
+    } if (responseState == RESPONSE_STATE_FADE_IN){
+        print_text_fmt_int(0,195, "choiceOneAlpha: %d", choiceOneAlpha);
+        print_text_fmt_int(0,180, "choiceOneAlpha2: %d", choiceOneAlpha2);
+        print_text_fmt_int(0,165, "choiceTwoAlpha: %d", choiceTwoAlpha);
+        print_text_fmt_int(0,150, "choiceTwoAlpha2: %d", choiceTwoAlpha2);
+        print_text_fmt_int(0,135, "choiceThreeAlpha: %d", choiceThreeAlpha);
+        print_text_fmt_int(0,120, "choiceThreeAlpha2: %d", choiceThreeAlpha2);
+
+        if (responseOffset[4] < responseOffset[2]){
+            responseOffset[4]+=10;
+            responseOffset[5]+=10;
+            responseOffset[6]+=10;
+        } if (responseOffset[4] >= responseOffset[2]){
+            responseOffset[4] = responseOffset[2];
+            responseOffset[5] = responseOffset[2];
+            responseOffset[6] = responseOffset[2];
+        }
+        if (choiceOneAlpha < 255) {
+            choiceOneAlpha+=13;
+            choiceOneAlpha2+=13;
+            choiceTwoAlpha2+=13;
+            choiceThreeAlpha2+=13;
+        } if (choiceOneAlpha2 >= 255) {
+            choiceOneAlpha = 255;
+            choiceOneAlpha2 = 255;
+            choiceTwoAlpha2 = 255;
+            choiceThreeAlpha2 = 255;
+            responseState = RESPONSE_STATE_MAIN;
+            selected = 0;
+        }
+
+
+    }
+    if (responseState == RESPONSE_STATE_MAIN){
+        responseTimer++;
+        if (responseTimer >= textLength || endResponseEarly == TRUE){
+            responseState = RESPONSE_STATE_CONFIRM;
+            finalChoice = selected;
+            responseTimer = 0;
+        } 
+
+        if (selected < 2){
+            if (gPlayer1Controller->stickY < 0 && selectionCooldown == 0){
+                selected++;
+                selectionCooldown = 6;
+            } 
+            } if (selected > 0){
+                if (gPlayer1Controller->stickY > 0 && selectionCooldown == 0){
+                selected--;
+                selectionCooldown = 10;
+            }//0DA099 blue
+        } //970202 red
+     if (gPlayer1Controller->buttonPressed & A_BUTTON){
+        play_sound(SOUND_MENU_STAR_SOUND, gGlobalSoundSource);
+        endResponseEarly = TRUE;
+    }
+    if (selected == 0){
+        choiceOneAlpha = 255;
+    } else {
+        if (choiceOneAlpha >= 25) {
+            choiceOneAlpha-=25;
+        } if (choiceOneAlpha < 25) {
+            choiceOneAlpha = 0;
+        }
+    } if (selected == 1){
+        choiceTwoAlpha = 255;
+    } else {
+        if (choiceTwoAlpha >= 25) {
+            choiceTwoAlpha-=25;
+        } if (choiceTwoAlpha < 25) {
+            choiceTwoAlpha = 0;
+        }
+    } if (selected == 2){
+        choiceThreeAlpha = 255;
+    } else {
+        if (choiceThreeAlpha >= 25) {
+            choiceThreeAlpha-=25;
+        } if (choiceThreeAlpha < 25) {
+            choiceThreeAlpha = 0;
+        }
+    }
+    } if (responseState == RESPONSE_STATE_CONFIRM){
+            responseTimer++;
+            if (selected == 0){
+                responseOffset[5]+=10;
+                responseOffset[6]+=10;
+                if (choiceTwoAlpha2 >= 25) {
+                    choiceTwoAlpha-=25;
+                    choiceThreeAlpha-=25;
+                    choiceTwoAlpha2-=25;
+                    choiceThreeAlpha2-=25;
+                } 
+                if (choiceTwoAlpha2 < 25) {
+                    choiceTwoAlpha = 0;
+                    choiceThreeAlpha = 0;
+                    choiceTwoAlpha2 = 0;
+                    choiceThreeAlpha2 = 0;
+            }
+            } if (selected == 1){
+                responseOffset[4]+=10;
+                responseOffset[6]+=10;
+
+                if (choiceOneAlpha2 >= 25) {
+                    choiceOneAlpha-=25;
+                    choiceThreeAlpha-=25;
+                    choiceOneAlpha2-=25;
+                    choiceThreeAlpha2-=25;
+                } 
+                if (choiceOneAlpha2 < 25) {
+                    choiceOneAlpha = 0;
+                    choiceThreeAlpha = 0;
+                    choiceOneAlpha2 = 0;
+                    choiceThreeAlpha2 = 0;
+            }
+            }
+            if (responseTimer >= 30){
+                responseState = RESPONSE_STATE_SELECTED;
+                responseTimer = 0;
+            }
+        } if (responseState == RESPONSE_STATE_SELECTED){
+            if (redResponseTextAlpha >= 25) {
+                redResponseTextAlpha-=25;
+                redResponseAlpha-=25;
+            } if (redResponseTextAlpha < 25) {
+                redResponseTextAlpha = 0;
+                redResponseAlpha = 0;
+            }
+            if (choiceOneAlpha2 >= 25) {
+                choiceOneAlpha2-=25;
+                choiceOneAlpha-=25;
+            } if (choiceOneAlpha2 < 25) {
+                choiceOneAlpha2 = 0;
+                choiceOneAlpha = 0;
+            }
+            if (choiceTwoAlpha2 >= 25) {
+                choiceTwoAlpha2-=25;
+                choiceTwoAlpha-=25;
+            } if (choiceTwoAlpha2 < 25) {
+                choiceTwoAlpha2 = 0;
+                choiceTwoAlpha = 0;
+            }
+            if (choiceThreeAlpha2 >= 25) {
+                choiceThreeAlpha2-=25;
+                choiceThreeAlpha-=25;
+            } if (choiceThreeAlpha2 < 25) {
+                choiceThreeAlpha2 = 0;
+                choiceThreeAlpha = 0;
+            }
+            if (choiceThreeAlpha2 == 0 && choiceTwoAlpha2 == 0 && choiceOneAlpha2 == 0 || redResponseTextAlpha == 0){
+                responseState = RESPONSE_STATE_NONE;
+                if (finalChoice == 0){
+                Therapy_State = ans1StateReturn;
+                } else if (finalChoice == 1){
+                Therapy_State = ans2StateReturn;
+                } else if (finalChoice == 2){
+                Therapy_State = ans3StateReturn;
+                }
+            }
+            
+        } 
+    
+                //red response 
+                
+                create_dl_translation_matrix(G_MTX_PUSH, responseOffset[4], 55, 0);
+                gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, redResponseTextAlpha);
+                gSPDisplayList(gDisplayListHead++, &desicionbox_desicionbox_mesh);
+                gDPSetEnvColor(gDisplayListHead++, 0x97, 0x02, 0x02, redResponseAlpha);
+                gSPDisplayList(gDisplayListHead++, &desicionboxrim_desicionboxrim_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+                
+                gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+                gDPSetEnvColor(gDisplayListHead++, 0x97, 0x02, 0x02, redResponseTextAlpha);
+                print_generic_string(responseOffset[4]-75,47, Text_Therapy_Response_1);//rtext_pressa    
+                
+                      
+                //option 1
+                create_dl_translation_matrix(G_MTX_PUSH, responseOffset[4], 55, 0);
+                gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, choiceOneAlpha2);
+                gSPDisplayList(gDisplayListHead++, &desicionbox_desicionbox_mesh);
+                gDPSetEnvColor(gDisplayListHead++, 0x0D, 0xA0, 0x99, choiceOneAlpha);
+                gSPDisplayList(gDisplayListHead++, &desicionboxrim_desicionboxrim_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+                
+                gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, choiceOneAlpha2);
+                print_generic_string(responseOffset[4]-85,47, Text_Therapy_Response_1);//rtext_pressa
+                //option 2
+                create_dl_translation_matrix(G_MTX_PUSH, responseOffset[5], 35, 0);
+                gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, choiceTwoAlpha2);
+                gSPDisplayList(gDisplayListHead++, &desicionbox_desicionbox_mesh);
+                gDPSetEnvColor(gDisplayListHead++, 0x0D, 0xA0, 0x99, choiceTwoAlpha);
+                gSPDisplayList(gDisplayListHead++, &desicionboxrim_desicionboxrim_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+                gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, choiceTwoAlpha2);
+                print_generic_string(responseOffset[5]-85,27, Text_Therapy_Response_2);//rtext_pressa
+                //option 3
+                create_dl_translation_matrix(G_MTX_PUSH, responseOffset[6], 15, 0);
+                gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, choiceThreeAlpha2);
+                gSPDisplayList(gDisplayListHead++, &desicionbox_desicionbox_mesh);
+                gDPSetEnvColor(gDisplayListHead++, 0x0D, 0xA0, 0x99, choiceThreeAlpha);
+                gSPDisplayList(gDisplayListHead++, &desicionboxrim_desicionboxrim_mesh);
+                gSPPopMatrix(gDisplayListHead++, G_MTX_MODELVIEW);
+
+                gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+                gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, choiceThreeAlpha2);
+                print_generic_string(responseOffset[6]-85,7, Text_Therapy_Response_3);//rtext_pressa
+                
 }
