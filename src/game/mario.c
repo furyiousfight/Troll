@@ -33,6 +33,8 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 
+extern Bool8 isPikmin;
+
 
 /**************************************************
  *                    ANIMATIONS                  *
@@ -1052,7 +1054,7 @@ s32 drop_and_set_mario_action(struct MarioState *m, u32 action, u32 actionArg) {
  * Increment Mario's hurt counter and set a new action.
  */
 s32 hurt_and_set_mario_action(struct MarioState *m, u32 action, u32 actionArg, s16 hurtCounter) {
-    m->hurtCounter = hurtCounter;
+
 
     return set_mario_action(m, action, actionArg);
 }
@@ -1164,7 +1166,7 @@ void squish_mario_model(struct MarioState *m) {
     if (m->squishTimer != 0xFF) {
         // If no longer squished, scale back to default.
         if (m->squishTimer == 0) {
-            vec3f_set(m->marioObj->header.gfx.scale, 1.0f, 1.0f, 1.0f);
+            //vec3f_set(m->marioObj->header.gfx.scale, 1.0f, 1.0f, 1.0f);
         }
         // If timer is less than 16, rubber-band Mario's size scale up and down.
         else if (m->squishTimer <= 16) {
@@ -1210,8 +1212,10 @@ void debug_print_speed_action_normal(struct MarioState *m) {
  * Update the button inputs for Mario.
  */
 void update_mario_button_inputs(struct MarioState *m) {
+    if (isPikmin == FALSE){
     if (m->controller->buttonPressed & A_BUTTON) m->input |= INPUT_A_PRESSED;
     if (m->controller->buttonDown    & A_BUTTON) m->input |= INPUT_A_DOWN;
+    }
 
     // Don't update for these buttons if squished.
     if (m->squishTimer == 0) {
@@ -1448,10 +1452,7 @@ void update_mario_health(struct MarioState *m) {
             m->health += 0x40;
             m->healCounter--;
         }
-        if (m->hurtCounter > 0) {
-            m->health -= 0x40;
-            m->hurtCounter--;
-        }
+
 
         if (m->health > 0x880) m->health = 0x880;
         if (m->health < 0x100) m->health = 0xFF;
@@ -1644,11 +1645,13 @@ void mario_update_hitbox_and_cap_model(struct MarioState *m) {
     }
 
     // Short hitbox for crouching/crawling/etc.
+    /*
     if (m->action & ACT_FLAG_SHORT_HITBOX) {
         m->marioObj->hitboxHeight = 100.0f;
     } else {
         m->marioObj->hitboxHeight = 160.0f;
     }
+    */
 
     if ((m->flags & MARIO_TELEPORTING) && (m->fadeWarpOpacity != MODEL_STATE_MASK)) {
         bodyState->modelState &= ~MODEL_STATE_MASK;

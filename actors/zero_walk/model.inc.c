@@ -327,8 +327,10 @@ Gfx zero_walk_zero_walk_mesh_layer_4_tri_0[] = {
 Gfx mat_zero_walk_f3dlite_material_004[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0),
-	gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BACK | G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_POINT),
+	gsDPSetDepthSource(G_ZS_PRIM),
+	gsDPSetPrimDepth(1, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 34, zero_walk_spr_casualwalk_0_rgba16),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 9, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
@@ -340,8 +342,10 @@ Gfx mat_zero_walk_f3dlite_material_004[] = {
 
 Gfx mat_revert_zero_walk_f3dlite_material_004[] = {
 	gsDPPipeSync(),
-	gsSPSetGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPSetGeometryMode(G_ZBUFFER | G_CULL_BACK | G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_BILERP),
+	gsDPSetDepthSource(G_ZS_PIXEL),
+	gsDPSetPrimDepth(0, 0),
 	gsSPEndDisplayList(),
 };
 

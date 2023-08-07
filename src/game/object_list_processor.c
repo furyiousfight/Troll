@@ -23,7 +23,23 @@
 #include "puppylights.h"
 #include "profiling.h"
 #include "levels/bob/header.h"
-extern u8 frisk_down[];
+#include "seq_ids.h"
+#include "src/game/game_init.h"
+u8 switchDelayTimer;
+extern s16 cachedMarioPosAndFaceAngle[3];
+extern s16 cachedPikminPosAndFaceAngle[3];
+f32 starCount;
+Bool8 isPikmin;
+extern f32 pikminScale;
+extern s16 friskPos[2];
+u8 undertaleTimer = 0;
+extern u8 undertaleArea;
+extern Bool8 undertaleWarp;
+extern Bool8 ZeroInjected;
+u8 ZeroInjectTimer;
+extern Bool8 ZeroKilled;
+Bool8 ZeroKilledInit;
+extern Bool8 FreeMario;
 u8 third_speed;
 u8 frame;
 u8 IntroDeath;
@@ -267,15 +283,102 @@ void spawn_particle(u32 activeParticleFlag, ModelID16 model, const BehaviorScrip
 /**
  * Mario's primary behavior update function.
  */
+struct ObjectHitbox sMarioHitbox = {
+    /* interactType:      */ INTERACT_NONE,
+    /* downOffset:        */   0,
+    /* damageOrCoinValue: */   0,
+    /* health:            */   1,
+    /* numLootCoins:      */   0,
+    /* radius:            */ 37,
+    /* height:            */ 160,
+    /* hurtboxRadius:     */ 0,
+    /* hurtboxHeight:     */ 0,
+    };
 void bhv_mario_update(void) {
+    starCount = save_file_get_total_star_count(gCurrSaveFileNum - 1, 0, 24);
+    pikminScale = 0.45f;
+    //print_text_fmt_int(20,20, "starCount %d", starCount);
+    if (starCount > 0){
+        save_file_set_flags(512);
+    }
+    if (switchDelayTimer > 0){
+        switchDelayTimer--;
+    }
+    if (gPlayer1Controller->buttonPressed & L_TRIG && switchDelayTimer == 0 && gCurrLevelNum == LEVEL_JRB){
+        if (isPikmin == FALSE){
+            spawn_object_abs_with_rot(gMarioObject, 0, MODEL_FAKE_MARIO, bhvFakeMario, cachedMarioPosAndFaceAngle[0], cachedMarioPosAndFaceAngle[1], cachedMarioPosAndFaceAngle[2], 0, cachedMarioPosAndFaceAngle[3], 0);
+            gMarioState->pos[0] = cachedPikminPosAndFaceAngle[0];
+            gMarioState->pos[1] = cachedPikminPosAndFaceAngle[1];
+            gMarioState->pos[2] = cachedPikminPosAndFaceAngle[2];
+            gMarioState->faceAngle[1] = cachedPikminPosAndFaceAngle[3];
+            isPikmin = TRUE;
+            switchDelayTimer = 30;
+        } else {
+            spawn_object_abs_with_rot(gMarioObject, 0, MODEL_PIKMIN, bhvPikmin, cachedPikminPosAndFaceAngle[0], cachedPikminPosAndFaceAngle[1], cachedPikminPosAndFaceAngle[2], 0, cachedPikminPosAndFaceAngle[3], 0);
+            gMarioState->pos[0] = cachedMarioPosAndFaceAngle[0];
+            gMarioState->pos[1] = cachedMarioPosAndFaceAngle[1];
+            gMarioState->pos[2] = cachedMarioPosAndFaceAngle[2];
+            gMarioState->faceAngle[1] = cachedMarioPosAndFaceAngle[3];
+            isPikmin = FALSE;
+            switchDelayTimer = 30;
+        }
+    }
+    if (isPikmin == TRUE){
+        cachedPikminPosAndFaceAngle[0] = gMarioState->pos[0];
+        cachedPikminPosAndFaceAngle[1] = gMarioState->pos[1];
+        cachedPikminPosAndFaceAngle[2] = gMarioState->pos[2];
+        cachedPikminPosAndFaceAngle[3] = gMarioState->faceAngle[1];
+        gMarioState->marioObj->header.gfx.scale[0] = pikminScale;
+        gMarioState->marioObj->header.gfx.scale[1] = pikminScale;
+        gMarioState->marioObj->header.gfx.scale[2] = pikminScale;
+        //sMarioHitbox.radius = 37 * pikminScale;
+        //sMarioHitbox.height = 160 * pikminScale;
+        gMarioState->marioObj->hitboxHeight = 65;
+        gMarioState->marioObj->hitboxRadius = 16;
+
+        //obj_set_hitbox(o, &sMarioHitbox);
+        cur_obj_set_model(MODEL_PIKMIN);
+    } else {
+        vec3f_set(gMarioState->marioObj->header.gfx.scale, 1, 1, 1);
+        cachedMarioPosAndFaceAngle[0] = gMarioState->pos[0];
+        cachedMarioPosAndFaceAngle[1] = gMarioState->pos[1];
+        cachedMarioPosAndFaceAngle[2] = gMarioState->pos[2];
+        cachedMarioPosAndFaceAngle[3] = gMarioState->faceAngle[1];
+        //sMarioHitbox.radius = 37;
+        //sMarioHitbox.height = 160;
+        gMarioState->marioObj->hitboxHeight = 160;
+        gMarioState->marioObj->hitboxRadius = 37;
+
+        //obj_set_hitbox(o, &sMarioHitbox);
+        cur_obj_set_model(MODEL_MARIO);
+    }
     u32 particleFlags = 0;
     s32 i;
+    if (ZeroKilled == TRUE && ZeroKilledInit == FALSE){
+    ZeroKilledInit = TRUE;
+    play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 255, 0x00, 0x00, 0x00);
+    initiate_warp(LEVEL_JRB, 0x01, 0x0A, WARP_FLAGS_NONE);
+ }
+     if (ZeroInjected == TRUE){
+    play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 10, 0x00, 0x00, 0x00);
+    fadeout_background_music(SEQ_STREAMED_NOCTURNE, 200);
+    ZeroInjectTimer++;
+    if (ZeroInjectTimer == 10){
+        initiate_warp(LEVEL_JRB, 0x01, 0x0A, WARP_FLAGS_NONE);
+    }
+ }
     if (MinecraftWarp == TRUE){
-        
-    initiate_warp(LEVEL_BOB, 0x01, 0x0A, WARP_FLAGS_NONE);
+    
+    initiate_warp(LEVEL_WF, 0x01, 0x0A, WARP_FLAGS_NONE);
 
     }
-    if (gCurrLevelNum == LEVEL_BOB){
+    if (gCurrLevelNum == LEVEL_WF){
+        MinecraftTrans = FALSE;
+        MinecraftWarp = FALSE;
+        gMarioState->floor->type = SURFACE_DEFAULT;
+        InPortal = FALSE;
+    }
+    if (gCurrLevelNum == LEVEL_BOB && ZeroKilled == FALSE){
                 MinecraftTrans = FALSE;
         MinecraftWarp = FALSE;
                 gMarioState->floor->type = SURFACE_DEFAULT;
@@ -284,7 +387,56 @@ void bhv_mario_update(void) {
 
         cur_obj_set_model(MODEL_NONE);
 
-    }
+    }if (gCurrLevelNum == LEVEL_BOB && (ZeroKilled == TRUE || ZeroInjected == TRUE)){
+        ZeroKilled = FALSE;
+        ZeroInjected = FALSE;
+        set_mario_action(gMarioState, ACT_IDLE, 0);
+
+    } if (gCurrLevelNum == LEVEL_WF){
+        cur_obj_set_model(MODEL_NONE);
+        //print_text_fmt_int(10,50, "undertaleTimer %d", undertaleTimer);
+        if (undertaleArea == 1){
+            if (undertaleWarp == TRUE){
+                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 15, 0x00, 0x00, 0x00);
+                if (undertaleTimer < 15){
+                    undertaleTimer++;
+                } if (undertaleTimer >= 15) {
+                undertaleArea = 2;
+                undertaleTimer = 0;
+                undertaleWarp = FALSE;
+                }
+            }
+        } else if (undertaleArea == 2){
+
+            if (undertaleTimer < 15){
+                play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 15, 0x00, 0x00, 0x00);
+                undertaleTimer++;
+            } if (undertaleTimer >= 15){
+                undertaleTimer = 0;
+                undertaleArea = 3;
+                
+            }
+        } else if (undertaleArea == 3){
+            undertaleArea = 4;
+        } else if (undertaleArea == 5){
+            if (undertaleWarp == TRUE){
+                play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 15, 0x00, 0x00, 0x00);
+                if (undertaleTimer < 15){
+                    undertaleTimer++;
+                } if (undertaleTimer >= 15) {
+                undertaleArea = 6;
+                undertaleTimer = 0;
+                }
+            }
+        } else if (undertaleArea == 6){
+            set_mario_action(gMarioState, ACT_IDLE, 0);
+            initiate_warp(LEVEL_CCM, 0x01, 0x0A, WARP_FLAGS_NONE);
+
+            
+                
+            }
+        }
+     
     //print_text_fmt_int(180, 20, "Warp %d", MinecraftWarp);
     //print_text_fmt_int(180, 40, "Trans %d", MinecraftTrans);
     particleFlags = execute_mario_action(gCurrentObject);

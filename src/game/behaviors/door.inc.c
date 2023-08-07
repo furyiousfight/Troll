@@ -7,6 +7,7 @@ struct DoorAction {
 u8 DoorTrollCounter;
 s32 DoorTrollTimer;
 extern u8 *Text_Array[];
+extern struct MarioState *gMarioState;
 
 static struct DoorAction sDoorActions[] = {
     { INT_STATUS_WARP_DOOR_PULLED, DOOR_ACT_WARP_PULLED },
@@ -59,9 +60,14 @@ void play_warp_door_open_noise(void) {
 }
 
 void bhv_door_loop(void) {
+    if (gCurrLevelNum == LEVEL_CCM){
+        if (o->oDistanceToMario < 500.0f){
+            o->oPosZ = gMarioState->pos[2] + 500.0f;
+        }
+    }
     DoorTrollTimer++;
     s32 index = 0;
-print_text_fmt_int(20, 160, "DoorTrollCounter: %d", DoorTrollCounter);
+//print_text_fmt_int(20, 160, "DoorTrollCounter: %d", DoorTrollCounter);
 
     while (sDoorActions[index].flag != 0xFFFFFFFF) {
         if (cur_obj_clear_interact_status_flag(sDoorActions[index].flag)) {

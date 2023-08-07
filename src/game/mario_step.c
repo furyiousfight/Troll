@@ -9,7 +9,8 @@
 #include "game_init.h"
 #include "interaction.h"
 #include "mario_step.h"
-
+extern f32 pikminScale;
+extern Bool8 isPikmin;
 #include "config.h"
 
 static s16 sMovingSandSpeeds[] = { 12, 8, 4, 0 };
@@ -277,9 +278,13 @@ static s32 perform_ground_quarter_step(struct MarioState *m, Vec3f nextPos) {
     s16 i;
     s16 wallDYaw;
     s32 oldWallDYaw;
-
-    resolve_and_return_wall_collisions(nextPos, 30.0f, 24.0f, &lowerWall);
-    resolve_and_return_wall_collisions(nextPos, 60.0f, 50.0f, &upperWall);
+    if (isPikmin == FALSE){
+        resolve_and_return_wall_collisions(nextPos, 30.0f, 24.0f, &lowerWall);
+        resolve_and_return_wall_collisions(nextPos, 60.0f, 50.0f, &upperWall);
+    } else {
+        resolve_and_return_wall_collisions(nextPos, 13.5f, 11.0f, &lowerWall);
+        resolve_and_return_wall_collisions(nextPos, 27.0f, 22.5f, &upperWall);
+    }
 
     f32 floorHeight = find_floor(nextPos[0], nextPos[1], nextPos[2], &floor);
     f32 ceilHeight = find_mario_ceil(nextPos, floorHeight, &ceil);
@@ -305,9 +310,14 @@ static s32 perform_ground_quarter_step(struct MarioState *m, Vec3f nextPos) {
         set_mario_floor(m, floor, floorHeight);
         return GROUND_STEP_LEFT_GROUND;
     }
-
-    if (floorHeight + 160.0f >= ceilHeight) {
-        return GROUND_STEP_HIT_WALL_STOP_QSTEPS;
+    if (isPikmin == TRUE){
+        if (floorHeight + 65 >= ceilHeight) {
+            return GROUND_STEP_HIT_WALL_STOP_QSTEPS;
+        }
+    } else {
+        if (floorHeight + 160 >= ceilHeight) {
+            return GROUND_STEP_HIT_WALL_STOP_QSTEPS;
+        }
     }
 
     vec3f_set(m->pos, nextPos[0], floorHeight, nextPos[2]);

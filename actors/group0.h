@@ -337,17 +337,11 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "nether/collision_header.h"
 
-#include "FriskFront/geo_header.h"
 
-#include "FriskBack/geo_header.h"
-
-#include "FriskLeft/geo_header.h"
-
-#include "FriskRight/geo_header.h"
 
 #include "psychiatristsit/geo_header.h"
 
-#include "fireplace/geo_header.h"
+
 
 #include "zero/geo_header.h"
 
@@ -361,5 +355,31 @@ extern const Gfx white_particle_small_unused_dl[];
 
 #include "katana_a_button/geo_header.h"
 
+
+#include "psych_killrock/geo_header.h"
+
+#include "sophie/geo_header.h"
+
+
+#include "sophie/anim_header.h"
+#include "psych_getneedle/geo_header.h"
+
+#include "psych_walkneedle/geo_header.h"
+
+#include "psych_inject/geo_header.h"
+
+#include "frisk/geo_header.h"
+
+#include "building_ext/geo_header.h"
+
+#include "hallway/geo_header.h"
+
+#include "hallway/collision_header.h"
+
+#include "pikmin/geo_header.h"
+
+
+#include "pikmin/anim_header.h"
+#include "fake_mario/geo_header.h"
 
 #endif

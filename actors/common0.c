@@ -85,3 +85,7 @@ UNUSED static const u64 binid_18 = 18;
 #include "textbox_1/model.inc.c"
 #include "desicionbox/model.inc.c"
 #include "desicionboxrim/model.inc.c"
+#include "quigon/model.inc.c"
+#include "obiwan/model.inc.c"
+#include "background/model.inc.c"
+#include "floweyTextBox/model.inc.c"

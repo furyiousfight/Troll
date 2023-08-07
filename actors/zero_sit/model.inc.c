@@ -291,15 +291,15 @@ u8 zero_sit_sitdowndefault_rgba16[] = {
 	
 };
 
-Vtx zero_sit_zero_sit_002_mesh_layer_4_vtx_0[4] = {
+Vtx zero_sit_zero_sit_mesh_layer_4_vtx_0[4] = {
 	{{ {0, 30, -210}, 0, {0, 1152}, {255, 255, 255, 255} }},
-	{{ {0, 30, 163}, 0, {1024, 1152}, {255, 255, 255, 255} }},
-	{{ {0, 450, 163}, 0, {1024, 0}, {255, 255, 255, 255} }},
+	{{ {0, 30, 186}, 0, {1024, 1152}, {255, 255, 255, 255} }},
+	{{ {0, 450, 186}, 0, {1024, 0}, {255, 255, 255, 255} }},
 	{{ {0, 450, -210}, 0, {0, 0}, {255, 255, 255, 255} }},
 };
 
-Gfx zero_sit_zero_sit_002_mesh_layer_4_tri_0[] = {
-	gsSPVertex(zero_sit_zero_sit_002_mesh_layer_4_vtx_0 + 0, 4, 0),
+Gfx zero_sit_zero_sit_mesh_layer_4_tri_0[] = {
+	gsSPVertex(zero_sit_zero_sit_mesh_layer_4_vtx_0 + 0, 4, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSPEndDisplayList(),
@@ -309,8 +309,10 @@ Gfx zero_sit_zero_sit_002_mesh_layer_4_tri_0[] = {
 Gfx mat_zero_sit_f3dlite_material_005[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0),
-	gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BACK | G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_POINT),
+	gsDPSetDepthSource(G_ZS_PRIM),
+	gsDPSetPrimDepth(100, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 1, zero_sit_sitdowndefault_rgba16),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
@@ -322,14 +324,16 @@ Gfx mat_zero_sit_f3dlite_material_005[] = {
 
 Gfx mat_revert_zero_sit_f3dlite_material_005[] = {
 	gsDPPipeSync(),
-	gsSPSetGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPSetGeometryMode(G_ZBUFFER | G_CULL_BACK | G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_BILERP),
+	gsDPSetDepthSource(G_ZS_PIXEL),
+	gsDPSetPrimDepth(0, 0),
 	gsSPEndDisplayList(),
 };
 
-Gfx zero_sit_zero_sit_002_mesh_layer_4[] = {
+Gfx zero_sit_zero_sit_mesh_layer_4[] = {
 	gsSPDisplayList(mat_zero_sit_f3dlite_material_005),
-	gsSPDisplayList(zero_sit_zero_sit_002_mesh_layer_4_tri_0),
+	gsSPDisplayList(zero_sit_zero_sit_mesh_layer_4_tri_0),
 	gsSPDisplayList(mat_revert_zero_sit_f3dlite_material_005),
 	gsSPEndDisplayList(),
 };

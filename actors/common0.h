@@ -205,4 +205,12 @@ extern const Collision unknown_seg8_collision_080262F8[];
 
 #include "desicionboxrim/header.h"
 
+#include "quigon/header.h"
+
+#include "obiwan/header.h"
+
+#include "background/header.h"
+
+#include "floweyTextBox/header.h"
+
 #endif

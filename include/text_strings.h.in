@@ -78,7 +78,7 @@
  * Global Text
  */
 // File Select
-#define TEXT_NEW _("NEW") // New File Text
+#define TEXT_NEW _("MEW") // New File Text
 #define TEXT_4DASHES _("----") // Used in Score File Menu
 
 // Ingame Menu
@@ -198,23 +198,23 @@
  */
 // Main Screens
 #define TEXT_MARIO _("MARIO") // View Score Menu
-#define TEXT_SELECT_FILE _("SELECT FILE")
+#define TEXT_SELECT_FILE _("MADE BY FURYIOUSFIGHT")
 #define TEXT_CHECK_FILE _("CHECK FILE")
 #define TEXT_COPY_FILE _("COPY FILE")
 #define TEXT_ERASE_FILE _("ERASE FILE")
 #define TEXT_SOUND_SELECT _("SOUND SELECT")
-#define TEXT_FILE_MARIO_A _("MARIO A")
-#define TEXT_FILE_MARIO_B _("MARIO B")
-#define TEXT_FILE_MARIO_C _("MARIO C")
-#define TEXT_FILE_MARIO_D _("MARIO D")
+#define TEXT_FILE_MARIO_A _("SHOUTOUTS TO")
+#define TEXT_FILE_MARIO_B _("ROVERT, JOOPII")
+#define TEXT_FILE_MARIO_C _("BOOMERDACAT")
+#define TEXT_FILE_MARIO_D _("AXOLLYON, SPK")
 
 // Menu Options
-#define TEXT_SCORE _("SCORE")
-#define TEXT_COPY _("COPY")
-#define TEXT_ERASE _("ERASE")
+#define TEXT_SCORE _("MARIO JAMS")
+#define TEXT_COPY _("AND ALL MY OTHER LOVELY FRIENDS")
+#define TEXT_ERASE _("")
 
 // Sound Options
-#define TEXT_STEREO _("STEREO")
+#define TEXT_STEREO _("")
 #define TEXT_MONO _("MONO")
 #define TEXT_HEADSET _("HEADSET")
 
@@ -307,13 +307,31 @@
 #define TEXT_DOOR_TROLL_16 _("I'm not sure what you're expecting to happen here.") // 17
 #define TEXT_DOOR_TROLL_17 _("My friend I think there might be something wrong with you.") // 18
 #define TEXT_DOOR_TROLL_18 _("You know what. Go ahead, open the door as much as you want.\nI'm leaving.") // 19
-#define TEXT_DOOR_TROLL_19 _("Oh my god you're still going.") // 30
+#define TEXT_DOOR_TROLL_19 _("You should go look around.\nThere's probably another way.") // 30
 
-#define TEXT_THERAPY_RESPONSE_1 _("Whats going on?")
-#define TEXT_THERAPY_RESPONSE_2 _("Who am I?")
-#define TEXT_THERAPY_RESPONSE_3 _("What game is this?")
 
-#define TEXT_THERAPY_RESPONSE_4 _("The Mushroom Kingdom...")
+#define TEXT_WHAT_IS_THIS _("What is this?")
+#define TEXT_NIGHTMARES _("Nightmares?")
+#define TEXT_WHO_AM_I _("Who am I?")
+#define TEXT_WHAT_GAME_AM_I_IN _("What game am I in?")
+
+#define TEXT_YO_MAMA _("Yo mama.")
+#define TEXT_ZERO _("Zero.")
+#define TEXT_MARIO _("Mario.")
+#define TEXT_SIMPLEFLIPS _("SimpleFlips.")
+
+#define TEXT_I_HAVE_PLACES_TO_BE _("I have places to be.")
+#define TEXT_A_GIRL _("A girl?")
+#define TEXT_A_MOTH _("A moth?")
+#define TEXT_SOPHIE _("Sophie?")
+
+#define TEXT_NOT_SUPPOSED_TO_BE_HERE _("I'm not supposed to be here.")
+#define TEXT_I_DONT_HAVE_TIME_FOR_THIS _("I don't have time for this.")
+#define TEXT_ENOUGH_OF_THIS _("Enough of this.")
+
+#define TEXT_OPTION_3 _("Option 3")
+#define TEXT_WERE_DONE_HERE _("We're done here.")
+#define TEXT_IM_SORRY_CAN_WE_START_OVER _("I'm sorry, can we start over?")
 
 #endif
 

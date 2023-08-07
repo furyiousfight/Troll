@@ -62,11 +62,13 @@ Gfx *geo_intro_super_mario_64_logo(s32 callContext, struct GraphNode *node, UNUS
         } else if (sIntroFrameCounter >= INTRO_STEPS_ZOOM_IN && sIntroFrameCounter < INTRO_STEPS_HOLD_1) {
             // holding
             vec3_same(scale, 1.0f);
+            sIntroFrameCounter = 75;
         } else if (sIntroFrameCounter >= INTRO_STEPS_HOLD_1 && sIntroFrameCounter < INTRO_STEPS_ZOOM_OUT) {
             // zooming out
             vec3f_copy(scale, &scaleTable2[(sIntroFrameCounter - INTRO_STEPS_HOLD_1) * 3]);
         } else {
             // disappeared
+            stop_sound(SOUND_MENU_COIN_ITS_A_ME_MARIO, gGlobalSoundSource);
             vec3_zero(scale);
         }
         guScale(scaleMat, scale[0], scale[1], scale[2]);

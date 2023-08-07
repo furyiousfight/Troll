@@ -11,16 +11,16 @@ ALIGNED8 const u8 NetherPortal[] = {
 #include "actors/amp/nether_portal.rgba32.inc.c"
 };
 
-ALIGNED8 const u8 frisk_up[] = {
-#include "actors/amp/friskup.rgba16.inc.c"
+ALIGNED8 const u8 frisk_front[] = {
+#include "actors/amp/friskfront.rgba16.inc.c"
 };
 
-ALIGNED8 const u8 frisk_down[] = {
-#include "actors/amp/friskdown.rgba16.inc.c"
+ALIGNED8 const u8 frisk_back[] = {
+#include "actors/amp/friskback.rgba16.inc.c"
 };
 
-ALIGNED8 const u8 frisk_left[] = {
-#include "actors/amp/friskleft.rgba16.inc.c"
+ALIGNED8 const u8 frisk_side[] = {
+#include "actors/amp/friskside.rgba16.inc.c"
 };
 
 ALIGNED8 const u8 frisk_right[] = {
@@ -45,6 +45,22 @@ ALIGNED8 const u8 psych_stand[] = {
 
 ALIGNED8 const u8 psych_walk[] = {
 #include "actors/amp/psychwalk.rgba16.inc.c"
+};
+
+ALIGNED8 const u8 psych_killrock[] = {
+#include "actors/amp/killrock.rgba16.inc.c"
+};
+
+ALIGNED8 const u8 psych_getneedle[] = {
+#include "actors/amp/getneedle.rgba16.inc.c"
+};
+
+ALIGNED8 const u8 psych_walkneedle[] = {
+#include "actors/amp/walkneedle.rgba16.inc.c"
+};
+
+ALIGNED8 const u8 psych_inject[] = {
+#include "actors/amp/inject.rgba16.inc.c"
 };
 
 ALIGNED8 const u8 zero_idle[] = {

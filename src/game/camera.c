@@ -27,8 +27,12 @@
 #include "level_table.h"
 #include "config.h"
 #include "puppyprint.h"
+extern u8 undertaleArea;
 extern u8 PeachTimer;
-extern Bool8 MinecraftTrans;
+extern Bool8 unpausable;
+extern u16 sophieCutsceneState;
+extern s16 NetherPos[2];
+extern s16 friskPos[2];
 
 #define CBUTTON_MASK (U_CBUTTONS | D_CBUTTONS | L_CBUTTONS | R_CBUTTONS)
 
@@ -2786,6 +2790,25 @@ void update_lakitu(struct Camera *c) {
     Vec3f newFoc;
     f32 distToFloor;
     s16 newYaw;
+    
+    if (sophieCutsceneState == 3 || sophieCutsceneState == 4 || sophieCutsceneState == 5){
+            c->pos[0] = 3000;
+            c->pos[1] = 2000;
+            c->pos[2] = -2000;
+            c->focus[0] = NetherPos[0];
+            c->focus[1] = NetherPos[1];
+            c->focus[2] = NetherPos[2];
+            set_mario_action(gMarioState, ACT_UNINITIALIZED, 0);
+
+    } if (sophieCutsceneState == 6){
+            c->pos[0] = 3000;
+            c->pos[1] = 2000;
+            c->pos[2] = -2000;
+            c->focus[0] = NetherPos[0];
+            c->focus[1] = NetherPos[1];
+            c->focus[2] = NetherPos[2];
+    }
+    
         if (gCurrLevelNum == LEVEL_BOB){
         c->pos[0] = 0;
         c->pos[1] = 1300;
@@ -2793,6 +2816,41 @@ void update_lakitu(struct Camera *c) {
         c->focus[0] = 0;
         c->focus[1] = 1300;
         c->focus[2] = -716;
+    }
+    if (gCurrLevelNum == LEVEL_WF){
+        //print_text_fmt_int(180, 20, "undertaleArea %d", undertaleArea);
+        if (undertaleArea != 6){
+        set_mario_action(gMarioState, ACT_UNINITIALIZED, 0);
+        }
+        c->yaw = DEGREES(180);
+        c->nextYaw = DEGREES(180);
+        c->mode = CAM_STATUS_NONE;
+        if (undertaleArea == 0 || undertaleArea == 1){
+        if (friskPos[0] <= 100){
+            c->pos[0] = 100;
+            c->focus[0] = 100;
+        } else if (friskPos[0] > 100 && friskPos[0] < 900){
+            c->pos[0] = friskPos[0];
+            c->focus[0] = friskPos[0];
+        } else {
+            c->pos[0] = 900;
+            c->focus[0] = 900;
+        }
+        c->pos[1] = 1500;
+        c->pos[2] = 200;
+        c->focus[1] = 100;
+        c->focus[2] = 199;
+        reset_camera(gCamera);
+        } if (undertaleArea >=2){
+            c->pos[0] = 1450;
+            c->focus[0] = 1450;
+            c->pos[1] = 1500;
+            c->focus[1] = 100;
+            c->pos[2] = -1200;
+            c->focus[2] = -1201;
+            reset_camera(gCamera);
+        }
+        
     }
 
     if (!(gCameraMovementFlags & CAM_MOVE_PAUSE_SCREEN)) {
@@ -4555,31 +4613,31 @@ void play_camera_buzz_if_c_sideways(void) {
 }
 
 void play_sound_cbutton_up(void) {
-    if (MinecraftTrans == FALSE){
+    if (unpausable == FALSE){
     play_sound(SOUND_MENU_CAMERA_ZOOM_IN, gGlobalSoundSource);
     }
 }
 
 void play_sound_cbutton_down(void) {
-    if (MinecraftTrans == FALSE){
+    if (unpausable == FALSE){
     play_sound(SOUND_MENU_CAMERA_ZOOM_OUT, gGlobalSoundSource);
     }
 }
 
 void play_sound_cbutton_side(void) {
-    if (MinecraftTrans == FALSE){
+    if (unpausable == FALSE){
     play_sound(SOUND_MENU_CAMERA_TURN, gGlobalSoundSource);
     }
 }
 
 void play_sound_button_change_blocked(void) {
-    if (MinecraftTrans == FALSE){
+    if (unpausable == FALSE){
     play_sound(SOUND_MENU_CAMERA_BUZZ, gGlobalSoundSource);
     }
 }
 
 void play_sound_rbutton_changed(void) {
-    if (MinecraftTrans == FALSE){
+    if (unpausable == FALSE){
     play_sound(SOUND_MENU_CLICK_CHANGE_VIEW, gGlobalSoundSource);
     }
 }
@@ -5944,9 +6002,7 @@ struct CameraTrigger sCamCotMC[] = {
  * The CCM triggers are used to set the flag that says when Mario is in the slide shortcut.
  */
 struct CameraTrigger sCamCCM[] = {
-    { 2, cam_ccm_enter_slide_shortcut, -4846, 2061, 27, 1229, 1342, 396, 0 },
-    { 2, cam_ccm_leave_slide_shortcut, -6412, -3917, -6246, 307, 185, 132, 0 },
-    NULL_TRIGGER
+	NULL_TRIGGER
 };
 
 /**
@@ -6079,6 +6135,12 @@ struct CameraTrigger sCamBBH[] = {
  * Each table is terminated with NULL_TRIGGER
  */
 struct CameraTrigger sCamCastleGrounds[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamWF[] = {
+	NULL_TRIGGER
+};
+struct CameraTrigger sCamJRB[] = {
 	NULL_TRIGGER
 };
 struct CameraTrigger *sCameraTriggers[LEVEL_COUNT + 1] = {
@@ -8622,7 +8684,7 @@ void cutscene_dialog_create_dialog_box(struct Camera *c) {
  */
 void cutscene_dialog(struct Camera *c) {
     cutscene_event(cutscene_dialog_start, c, 0, 0);
-    cutscene_event(cutscene_dialog_move_mario_shoulder, c, 0, -1);
+
     cutscene_event(cutscene_dialog_create_dialog_box, c, 10, 10);
     sStatusFlags |= CAM_FLAG_SMOOTH_MOVEMENT;
 
@@ -10431,7 +10493,7 @@ u8 sZoomOutAreaMasks[] = {
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 0, 0, 0, 0), // CASTLE_INSIDE  | HMC
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SSL            | BOB
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // SL             | WDW
-	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 1, 0, 0), // JRB            | THI
+	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 1, 0, 0), // JRB            | THI
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // TTC            | RR
 	ZOOMOUT_AREA_MASK(1, 0, 0, 0, 1, 0, 0, 0), // CASTLE_GROUNDS | BITDW
 	ZOOMOUT_AREA_MASK(0, 0, 0, 0, 1, 0, 0, 0), // VCUTM          | BITFS

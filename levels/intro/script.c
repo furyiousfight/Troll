@@ -51,7 +51,7 @@ const LevelScript level_intro_splash_screen[] = {
     CALL(/*arg*/ LVL_INTRO_PLAY_ITS_A_ME_MARIO, /*func*/ lvl_intro_update),
     CALL(/*arg*/ 0, /*func*/ load_mario_area),
     
-    JUMP_LINK_PUSH_ARG(75),
+    JUMP_LINK_PUSH_ARG(21),
         UPDATE_OBJECTS(),
         SLEEP(/*frames*/ 1),
     JUMP_N_TIMES(),

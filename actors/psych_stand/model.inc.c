@@ -313,27 +313,28 @@ u8 psych_stand_standupdefault_rgba16[] = {
 	
 };
 
-Vtx psych_stand_psych_stand_mesh_layer_2_vtx_0[4] = {
+Vtx psych_stand_psych_stand_mesh_layer_4_vtx_0[4] = {
 	{{ {0, 0, 128}, 0, {0, 1280}, {255, 255, 255, 255} }},
 	{{ {0, 0, -233}, 0, {992, 1280}, {255, 255, 255, 255} }},
 	{{ {0, 455, -233}, 0, {992, 0}, {255, 255, 255, 255} }},
 	{{ {0, 455, 128}, 0, {0, 0}, {255, 255, 255, 255} }},
 };
 
-Gfx psych_stand_psych_stand_mesh_layer_2_tri_0[] = {
-	gsSPVertex(psych_stand_psych_stand_mesh_layer_2_vtx_0 + 0, 4, 0),
+Gfx psych_stand_psych_stand_mesh_layer_4_tri_0[] = {
+	gsSPVertex(psych_stand_psych_stand_mesh_layer_4_vtx_0 + 0, 4, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSPEndDisplayList(),
 };
 
 
-Gfx mat_psych_stand_f3dlite_material_006_layer2[] = {
+Gfx mat_psych_stand_f3dlite_material_006[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, TEXEL0, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, TEXEL0),
-	gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0),
+	gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BACK | G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_POINT),
-	gsDPSetRenderMode(GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM) | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | Z_CMP | IM_RD | CVG_DST_WRAP | ZMODE_DEC | CVG_X_ALPHA | ALPHA_CVG_SEL),
+	gsDPSetDepthSource(G_ZS_PRIM),
+	gsDPSetPrimDepth(25, 0),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 31, psych_stand_standupdefault_rgba16),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
@@ -343,18 +344,19 @@ Gfx mat_psych_stand_f3dlite_material_006_layer2[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_psych_stand_f3dlite_material_006_layer2[] = {
+Gfx mat_revert_psych_stand_f3dlite_material_006[] = {
 	gsDPPipeSync(),
-	gsSPSetGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPSetGeometryMode(G_ZBUFFER | G_CULL_BACK | G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_BILERP),
-	gsDPSetRenderMode(G_RM_AA_ZB_OPA_DECAL, G_RM_AA_ZB_OPA_DECAL2),
+	gsDPSetDepthSource(G_ZS_PIXEL),
+	gsDPSetPrimDepth(0, 0),
 	gsSPEndDisplayList(),
 };
 
-Gfx psych_stand_psych_stand_mesh_layer_2[] = {
-	gsSPDisplayList(mat_psych_stand_f3dlite_material_006_layer2),
-	gsSPDisplayList(psych_stand_psych_stand_mesh_layer_2_tri_0),
-	gsSPDisplayList(mat_revert_psych_stand_f3dlite_material_006_layer2),
+Gfx psych_stand_psych_stand_mesh_layer_4[] = {
+	gsSPDisplayList(mat_psych_stand_f3dlite_material_006),
+	gsSPDisplayList(psych_stand_psych_stand_mesh_layer_4_tri_0),
+	gsSPDisplayList(mat_revert_psych_stand_f3dlite_material_006),
 	gsSPEndDisplayList(),
 };
 

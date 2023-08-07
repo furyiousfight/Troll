@@ -54,7 +54,7 @@ const LevelScript level_bob_entry[] = {
 		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_NONE, -390, 898, -716, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_KATANA_A, -390, 1341, -663, 0, 0, 0, 0x00000000, bhvKatanaA),
-		OBJECT(MODEL_FIREPLACE, 76, 647, -716, 0, 0, 0, 0x00000000, bhvFireplace),
+		OBJECT(MODEL_NONE, 76, 647, -716, 0, 0, 0, 0x00000000, bhvFireplace),
 		OBJECT(MODEL_NONE, 0, 1300, 7552, 0, 0, 0, 0x00000000, bhvHiddenBlueCoin),
 		OBJECT(MODEL_NONE, 0, 1300, -716, 0, 0, 0, 0x00000000, bhvRedCoin),
 		OBJECT(MODEL_NONE, -297, 319, -544, 0, 0, 0, 0x00000000, bhvBlueFish),

@@ -685,7 +685,6 @@ u32 take_damage_from_interact_object(struct MarioState *m) {
         damage = 0;
     }
 
-    m->hurtCounter += 4 * damage;
 
 #if ENABLE_RUMBLE
     queue_rumble_data(5, 80);

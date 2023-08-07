@@ -226,6 +226,7 @@ enum SurfaceTypes {
     SURFACE_00FE,                       // 0x00FE // Unused
     SURFACE_TRAPDOOR,                   // 0x00FF // Bowser Left trapdoor, has no action defined
     SURFACE_NETHER,
+    SURFACE_UNDERTALE_WARP_1,
 };
 
 #define SURFACE_IS_NEW_WATER(cmd)               (((cmd) == SURFACE_NEW_WATER) || ((cmd) == SURFACE_NEW_WATER_BOTTOM))

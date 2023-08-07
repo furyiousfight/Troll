@@ -190,27 +190,26 @@ u8 psychiatristsit_spr_psych_glasses_0_rgba16[] = {
 	
 };
 
-Vtx psychiatristsit_psychiatristsit_mesh_layer_2_vtx_0[4] = {
+Vtx psychiatristsit_psychiatristsit_mesh_layer_4_vtx_0[4] = {
 	{{ {0, 0, 128}, 0, {0, 1088}, {255, 255, 255, 255} }},
 	{{ {0, 0, -128}, 0, {704, 1088}, {255, 255, 255, 255} }},
 	{{ {0, 397, -128}, 0, {704, 0}, {255, 255, 255, 255} }},
 	{{ {0, 397, 128}, 0, {0, 0}, {255, 255, 255, 255} }},
 };
 
-Gfx psychiatristsit_psychiatristsit_mesh_layer_2_tri_0[] = {
-	gsSPVertex(psychiatristsit_psychiatristsit_mesh_layer_2_vtx_0 + 0, 4, 0),
+Gfx psychiatristsit_psychiatristsit_mesh_layer_4_tri_0[] = {
+	gsSPVertex(psychiatristsit_psychiatristsit_mesh_layer_4_vtx_0 + 0, 4, 0),
 	gsSP1Triangle(0, 1, 2, 0),
 	gsSP1Triangle(0, 2, 3, 0),
 	gsSPEndDisplayList(),
 };
 
 
-Gfx mat_psychiatristsit_f3dlite_material_002_layer2[] = {
+Gfx mat_psychiatristsit_f3dlite_material_002[] = {
 	gsDPPipeSync(),
-	gsDPSetCombineLERP(TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, TEXEL0, TEXEL0, SHADE, TEXEL0_ALPHA, SHADE, 0, 0, 0, TEXEL0),
-	gsSPClearGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0),
+	gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BACK | G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_POINT),
-	gsDPSetRenderMode(GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM) | GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM), AA_EN | Z_CMP | IM_RD | CVG_DST_WRAP | ZMODE_DEC | CVG_X_ALPHA | ALPHA_CVG_SEL),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 22, psychiatristsit_spr_psych_glasses_0_rgba16),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 6, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
@@ -220,18 +219,17 @@ Gfx mat_psychiatristsit_f3dlite_material_002_layer2[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx mat_revert_psychiatristsit_f3dlite_material_002_layer2[] = {
+Gfx mat_revert_psychiatristsit_f3dlite_material_002[] = {
 	gsDPPipeSync(),
-	gsSPSetGeometryMode(G_CULL_BACK | G_LIGHTING),
+	gsSPSetGeometryMode(G_ZBUFFER | G_CULL_BACK | G_LIGHTING),
 	gsDPSetTextureFilter(G_TF_BILERP),
-	gsDPSetRenderMode(G_RM_AA_ZB_OPA_DECAL, G_RM_AA_ZB_OPA_DECAL2),
 	gsSPEndDisplayList(),
 };
 
-Gfx psychiatristsit_psychiatristsit_mesh_layer_2[] = {
-	gsSPDisplayList(mat_psychiatristsit_f3dlite_material_002_layer2),
-	gsSPDisplayList(psychiatristsit_psychiatristsit_mesh_layer_2_tri_0),
-	gsSPDisplayList(mat_revert_psychiatristsit_f3dlite_material_002_layer2),
+Gfx psychiatristsit_psychiatristsit_mesh_layer_4[] = {
+	gsSPDisplayList(mat_psychiatristsit_f3dlite_material_002),
+	gsSPDisplayList(psychiatristsit_psychiatristsit_mesh_layer_4_tri_0),
+	gsSPDisplayList(mat_revert_psychiatristsit_f3dlite_material_002),
 	gsSPEndDisplayList(),
 };
 

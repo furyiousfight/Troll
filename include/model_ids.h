@@ -6,7 +6,7 @@
 /* Global models that are loaded for every level */
 
 #define MODEL_MARIO                            0x01        // mario_geo
-#define MODEL_LUIGI                            0x02        // unused
+#define MODEL_PIKMIN                           0x02        // pikmin_geo
 
 /* Various static level geometry, the geo layout differs but terrain object presets treat them the same.*/
 
@@ -548,20 +548,25 @@
 #ifdef IA8_30FPS_COINS
 #define MODEL_SILVER_COIN                 0xE2        // silver_coin_geo
 #define MODEL_SILVER_COIN_NO_SHADOW       0xE3        // silver_coin_no_shadow_geo 
+
+#define MODEL_PSYCH_KILLROCK              0xF1        // psych_killrock_geo
 #define MODEL_KATANA_A                    0xF2        // katana_a_button_geo
 #define MODEL_PSYCH_WALK                  0xF3        // psych_walk_geo
 #define MODEL_PSYCH_STAND                 0xF4        // psych_stand_geo
 #define MODEL_ZERO_SIT                    0xF5        // zero_sit_geo
 #define MODEL_ZERO_WALK                   0xF6        // zero_walk_geo
 #define MODEL_ZERO                        0xF7        // zero_geo
-#define MODEL_FIREPLACE                   0xF8        // fireplace_geo
+#define MODEL_SOPHIE                      0xF8        // sophie_geo
 #define MODEL_PSYCH_SIT                   0xF9        // psychiatristsit_geo
-#define MODEL_FRISK_FRONT                 0xFA
-#define MODEL_FRISK_BACK                  0xFB
-#define MODEL_FRISK_LEFT                  0xFC
-#define MODEL_FRISK_RIGHT                 0xFD
+#define MODEL_FRISK                       0xFA        // frisk_geo
+#define MODEL_PSYCH_INJECT                0xFB        // psych_standneedle_geo
+#define MODEL_PSYCH_WALKNEEDLE            0xFC        // psych_walkneedle_geo
+#define MODEL_PSYCH_GRABNEEDLE            0xFD        // psych_grabneedle_geo
 #define MODEL_NETHER                      0xFE        // nether_geo
 #define MODEL_DREXPLOSION                 0xFF        // drexplosion_geo
+#define MODEL_BUILDING                    0x100       // building_geo
+#define MODEL_HALLWAY                     0x101       // hallway_geo
+#define MODEL_FAKE_MARIO                  0x102       // fake_mario_geo
 #endif
 
 // Menu Models (overwrites Level Geometry IDs)
