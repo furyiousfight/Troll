@@ -3,9 +3,15 @@
 const GeoLayout jrb_area_1_geo[] = {
 	GEO_NODE_START(),
 	GEO_OPEN_NODE(),
-		GEO_DISPLAY_LIST(LAYER_OPAQUE, jrb_dl_Cube_mesh_layer_1),
-		GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, jrb_dl_Cube_mesh_layer_6),
-		GEO_DISPLAY_LIST(LAYER_ALPHA, jrb_dl_Cube_mesh_layer_4),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -237, -249, 1224, jrb_dl_Cube_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_TRANSPARENT_DECAL, jrb_dl_Cube_mesh_layer_6),
+		GEO_CLOSE_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_OPAQUE, -758, 212, 1541, jrb_dl_Cube_002_mesh_layer_1),
+		GEO_OPEN_NODE(),
+			GEO_DISPLAY_LIST(LAYER_ALPHA, jrb_dl_Cube_002_mesh_layer_4),
+		GEO_CLOSE_NODE(),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_ALPHA, 1030, -443, -8667, jrb_dl_Plane_001_mesh_layer_4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

@@ -9,7 +9,7 @@ extern Bool8 pressedSwitch[9];
 
 void bhv_purple_switch_loop(void) {
     u8 switchNum = o->oBehParams2ndByte;
-
+    
     switch (o->oAction) {
         /**
          * Set the switch's model and scale. If Mario is standing near the
@@ -32,7 +32,8 @@ void bhv_purple_switch_loop(void) {
          * Immediately transition to the ticking state.
          */
         case PURPLE_SWITCH_ACT_PRESSED:
-            cur_obj_scale_over_time(SCALE_AXIS_Y, 3, 1.5f, 0.2f);
+
+            obj_scale_xyz(o, 1.5f, 0.2f, 1.5f);
             if (o->oTimer == 3) {
                 pressedSwitch[switchNum] = TRUE;
                 cur_obj_play_sound_2(SOUND_GENERAL2_PURPLE_SWITCH);

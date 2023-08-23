@@ -335,6 +335,7 @@ extern const BehaviorScript bhvFireplace[];
 extern const BehaviorScript bhvZero[];
 extern const BehaviorScript bhvPikmin[];
 extern const BehaviorScript bhvFakeMario[];
+extern const BehaviorScript bhvGate[];
 extern const BehaviorScript bhvKatanaA[];
 extern const BehaviorScript bhvSophie[];
 extern const BehaviorScript bhvFrisk[];

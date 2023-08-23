@@ -33,11 +33,29 @@
             "release_rate": 10,
             "envelope": "envelope",
             "sound": "25_custom_yourbestfriend"
+        },
+        "inst3": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "26_custom_fishing"
+        },
+        "inst4": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "27_custom_impactsite"
+        },
+        "inst5": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "28_custom_pikminboss"
         }
     },
     "instrument_list": [
         "inst0",
         "inst1",
-        "inst2"
+        "inst2",
+        "inst3",
+        "inst4",
+        "inst5"
     ]
 }

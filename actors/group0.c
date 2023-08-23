@@ -57,3 +57,6 @@
 #include "pikmin/anims/data.inc.c"
 #include "pikmin/anims/table.inc.c"
 #include "fake_mario/model.inc.c"
+#include "bulborb/model.inc.c"
+#include "gate/model.inc.c"
+#include "gate/collision.inc.c"

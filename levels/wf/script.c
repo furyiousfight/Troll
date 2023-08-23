@@ -72,8 +72,8 @@ const LevelScript level_wf_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_WF_KICKABLE_BOARD, wf_geo_000BA8), 
 	LOAD_MODEL_FROM_GEO(MODEL_WF_TOWER_DOOR, wf_geo_000BE0), 
 	LOAD_MODEL_FROM_GEO(MODEL_WF_KICKABLE_BOARD_FELLED, wf_geo_000BC8), 
-	    LOAD_MODEL_FROM_GEO(MODEL_FRISK,                   frisk_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_BUILDING,                building_ext_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_FRISK, frisk_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_BUILDING, building_ext_geo), 
 
 	/* Fast64 begin persistent block [level commands] */
 	/* Fast64 end persistent block [level commands] */
@@ -83,8 +83,8 @@ const LevelScript level_wf_entry[] = {
 		WARP_NODE(0xF0, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		WARP_NODE(0xF1, LEVEL_BOB, 0x01, 0x0A, WARP_NO_CHECKPOINT),
 		OBJECT(MODEL_FRISK, -9, 120, 86, 0, 0, 0, 0x00000000, bhvFrisk),
-		OBJECT(MODEL_1UP, 1469, 120, -1182, 0, 0, 0, 0x00000000, bhvUndertaleWarp),
-		OBJECT(MODEL_1UP, 1484, 120, 96, 0, 0, 0, 0x00000000, bhvUndertaleWarp),
+		OBJECT(MODEL_NONE, 1469, 120, -1182, 0, 0, 0, 0x00000000, bhvUndertaleWarp),
+		OBJECT(MODEL_NONE, 1484, 120, 96, 0, 0, 0, 0x00000000, bhvUndertaleWarp),
 		OBJECT(MODEL_BUILDING, 1520, 108, -2212, 0, 180, 0, 0x00000000, bhvBuilding),
 		OBJECT(MODEL_NONE, 0, 200, 0, 0, 0, 0, 0x000A0000, bhvSpinAirborneWarp),
 		MARIO_POS(0x01, 0, 0, 200, 0),

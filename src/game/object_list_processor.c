@@ -25,6 +25,7 @@
 #include "levels/bob/header.h"
 #include "seq_ids.h"
 #include "src/game/game_init.h"
+Bool8 onlyStarCollected;
 u8 switchDelayTimer;
 extern s16 cachedMarioPosAndFaceAngle[3];
 extern s16 cachedPikminPosAndFaceAngle[3];
@@ -297,9 +298,14 @@ struct ObjectHitbox sMarioHitbox = {
 void bhv_mario_update(void) {
     starCount = save_file_get_total_star_count(gCurrSaveFileNum - 1, 0, 24);
     pikminScale = 0.45f;
+
     //print_text_fmt_int(20,20, "starCount %d", starCount);
-    if (starCount > 0){
+    if (gCurrLevelNum == LEVEL_WF){
         save_file_set_flags(512);
+    }
+    if (starCount > 0 && onlyStarCollected == FALSE){
+        onlyStarCollected = TRUE;
+        save_file_do_save(gCurrSaveFileNum - 1);
     }
     if (switchDelayTimer > 0){
         switchDelayTimer--;

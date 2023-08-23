@@ -382,4 +382,10 @@ extern const Gfx white_particle_small_unused_dl[];
 #include "pikmin/anim_header.h"
 #include "fake_mario/geo_header.h"
 
+#include "bulborb/geo_header.h"
+
+#include "gate/geo_header.h"
+
+#include "gate/collision_header.h"
+
 #endif

@@ -37,3 +37,5 @@
 #include "hallway/geo.inc.c"
 #include "pikmin/geo.inc.c"
 #include "fake_mario/geo.inc.c"
+#include "bulborb/geo.inc.c"
+#include "gate/geo.inc.c"

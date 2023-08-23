@@ -127,7 +127,8 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_PSYCH_INJECT,            psych_inject_geo),
     LOAD_MODEL_FROM_GEO(MODEL_PIKMIN,                  pikmin_geo),
     LOAD_MODEL_FROM_GEO(MODEL_FAKE_MARIO,              fake_mario_geo),
-
+    LOAD_MODEL_FROM_GEO(MODEL_BULBORB,                 bulborb_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_GATE,                    gate_geo),
 #ifdef IA8_30FPS_COINS
     LOAD_MODEL_FROM_GEO(MODEL_SILVER_COIN,             silver_coin_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SILVER_COIN_NO_SHADOW,   silver_coin_no_shadow_geo),

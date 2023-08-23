@@ -175,6 +175,7 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp);
 void level_set_transition(s16 length, void (*updateFunction)());
 
 s32 lvl_init_or_update(                  s16 initOrUpdate, UNUSED s32 levelNum);
+void end_screen_play_music();
 s32 lvl_init_from_save_file(      UNUSED s16 initOrUpdate,        s32 levelNum);
 s32 lvl_set_current_level(        UNUSED s16 initOrUpdate,        s32 levelNum);
 s32 lvl_play_the_end_screen_sound(UNUSED s16 initOrUpdate, UNUSED s32 levelNum);

@@ -1,0 +1,10 @@
+extern const GeoLayout gate_geo[];
+extern Lights1 gate_f3dlite_material_010_lights;
+extern u8 gate_SUPER_MARIO_64_7F832C86_0_2_all_ci8[];
+extern u8 gate_SUPER_MARIO_64_7F832C86_0_2_all_pal_rgba16[];
+extern Vtx gate_Cube_001_mesh_layer_4_vtx_0[16];
+extern Gfx gate_Cube_001_mesh_layer_4_tri_0[];
+extern Gfx mat_gate_f3dlite_material_010[];
+extern Gfx mat_revert_gate_f3dlite_material_010[];
+extern Gfx gate_Cube_001_mesh_layer_4[];
+extern Gfx gate_material_revert_render_settings[];

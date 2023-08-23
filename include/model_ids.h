@@ -567,6 +567,8 @@
 #define MODEL_BUILDING                    0x100       // building_geo
 #define MODEL_HALLWAY                     0x101       // hallway_geo
 #define MODEL_FAKE_MARIO                  0x102       // fake_mario_geo
+#define MODEL_BULBORB                     0x103       // bulborb_geo
+#define MODEL_GATE                        0x104       // gate_geo
 #endif
 
 // Menu Models (overwrites Level Geometry IDs)

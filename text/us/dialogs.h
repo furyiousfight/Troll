@@ -86,30 +86,14 @@ DEFINE_DIALOG(DIALOG_016, 1, 3, 30, 200, _("\
 You are really trying my patience..."))
 
 DEFINE_DIALOG(DIALOG_017, 1, 4, 30, 200, _("\
-I'm the Big Bob-omb, lord\n\
-of all blasting matter,\n\
-king of ka-booms the\n\
-world over!\n\
-How dare you scale my\n\
-mountain? By what right\n\
-do you set foot on my\n\
-imperial mountaintop?\n\
-You may have eluded my\n\
-guards, but you'll never\n\
-escape my grasp...\n\
+Yeah I stole the machine\n\
+that keeps the multiverse\n\
+from not being destroyed.\n\
+What are you gonna do\n\
+about it, pick me up and\n\
+throw me three times?\n\
 \n\
-...and you'll never take\n\
-away my Power Star. I\n\
-hereby challenge you,\n\
-Mario!\n\
-If you want the Star I\n\
-hold, you must prove\n\
-yourself in battle.\n\
-\n\
-Can you pick me up from\n\
-the back and hurl me to\n\
-this royal turf? I think\n\
-that you cannot!"))
+wait dont"))
 
 DEFINE_DIALOG(DIALOG_018, 1, 9, 95, 200, _("\
 Mario thank goodness\n\
@@ -224,10 +208,19 @@ DEFINE_DIALOG(DIALOG_037, 1, 2, 30, 200, _("\
 Let me just grab your medicine\n\
 and you'll be on your way, then."))
 
-DEFINE_DIALOG(DIALOG_038, 1, 3, 95, 200, _("\
-Reacting to the Star\n\
-power, the door slowly\n\
-opens."))
+DEFINE_DIALOG(DIALOG_038, 1, 6, 95, 200, _("\
+I perceive a particularly\n\
+peak performance purple\n\
+pikmin, practically perfect\n\
+Proves pathetic pikmin\n\
+pretty pointless.\n\
+Predicaments placed in the\n\
+path of the purple pikmin\n\
+pose pitiable problems\n\
+placed parallel its power.\n\
+Press B to propel the\n\
+pikmin, and L to\n\
+percieve its perspective."))
 
 DEFINE_DIALOG(DIALOG_039, 1, 4, 30, 200, _("\
 No visitors allowed,\n\
@@ -1129,26 +1122,9 @@ after all. I won't gravel,\n\
 er, grovel. Here, you win.\n\
 Take this with you!"))
 
-DEFINE_DIALOG(DIALOG_116, 1, 5, 95, 200, _("\
-Whaaa....Whaaat?\n\
-Can it be that a\n\
-pipsqueak like you has\n\
-defused the Bob-omb\n\
-king????\n\
-You might be fast enough\n\
-to ground me, but you'll\n\
-have to pick up the pace\n\
-if you want to take King\n\
-Bowser by the tail.\n\
-Methinks my troops could\n\
-learn a lesson from you!\n\
-Here is your Star, as I\n\
-promised, Mario.\n\
-\n\
-If you want to see me\n\
-again, select this Star\n\
-from the menu. For now,\n\
-farewell."))
+DEFINE_DIALOG(DIALOG_116, 1, 2, 95, 200, _("\
+man.\n\
+okay fine you win"))
 
 DEFINE_DIALOG(DIALOG_117, 1, 1, 95, 200, _("\
 Who...walk...here?\n\
@@ -1691,13 +1667,12 @@ hit the wall. You can\n\
 bounce to a higher level\n\
 using this Wall Kick."))
 
-DEFINE_DIALOG(DIALOG_159, 1, 6, 30, 200, _("\
-3. If you stop, press [Z]\n\
-to crouch, then jump, you\n\
-can perform a Backward\n\
-Somersault. To do a Long\n\
-Jump, run fast, press [Z],\n\
-then jump."))
+DEFINE_DIALOG(DIALOG_159, 1, 5, 30, 200, _("\
+so turns out that\n\
+king bob-omb stole the\n\
+device to fix the\n\
+multiverse. get over\n\
+there and kick his ass"))
 
 DEFINE_DIALOG(DIALOG_160, 1, 4, 30, 200, _("\
 Press [B] while running\n\
@@ -1741,19 +1716,13 @@ KEEP_ON_PLAYING "』\n\
 \n\
 The Super Mario 64 Team"))
 
-DEFINE_DIALOG(DIALOG_162, 1, 4, 30, 200, _("\
-No, no, no! Not you\n\
-again! I'm in a great\n\
-hurry, can't you see?\n\
-\n\
-I've no time to squabble\n\
-over Stars. Here, have it.\n\
-I never meant to hide it\n\
-from you...\n\
-It's just that I'm in such\n\
-a rush. That's it, that's\n\
-all. Now, I must be off.\n\
-Owww! Let me go!"))
+DEFINE_DIALOG(DIALOG_162, 1, 6, 30, 200, _("\
+I'll be real there was\n\
+gonna be more content\n\
+here but got shafted\n\
+cause real life stuff\n\
+so hope you liked long\n\
+hallway"))
 
 DEFINE_DIALOG(DIALOG_163, 1, 5, 30, 200, _("\
 Noooo! You've really\n\

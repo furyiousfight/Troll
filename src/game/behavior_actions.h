@@ -105,6 +105,7 @@ void bhv_undertale_warp(void);
 void bhv_building_loop(void);
 void bhv_pikmin_loop(void);
 void bhv_fake_mario(void);
+void bhv_blow_up_col(void);
 void bhv_frisk_loop(void);
 void bhv_fireplace_loop(void);
 void bhv_zero_loop(void);

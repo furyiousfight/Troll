@@ -9,7 +9,7 @@ const GeoLayout wf_area_1_geo[] = {
 		GEO_CLOSE_NODE(),
 		GEO_DISPLAY_LIST(LAYER_OPAQUE, wf_dl_frisk_mesh_layer_1),
 		GEO_DISPLAY_LIST(LAYER_ALPHA, wf_dl_frisk_mesh_layer_4),
-		GEO_TRANSLATE_NODE_WITH_DL(LAYER_ALPHA, 0, 146, -442, wf_dl_frisk_001_mesh_layer_4),
+		GEO_TRANSLATE_NODE_WITH_DL(LAYER_ALPHA, 0, 146, -1095, wf_dl_frisk_001_mesh_layer_4),
 	GEO_CLOSE_NODE(),
 	GEO_RETURN(),
 };

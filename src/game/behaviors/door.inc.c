@@ -60,11 +60,7 @@ void play_warp_door_open_noise(void) {
 }
 
 void bhv_door_loop(void) {
-    if (gCurrLevelNum == LEVEL_CCM){
-        if (o->oDistanceToMario < 500.0f){
-            o->oPosZ = gMarioState->pos[2] + 500.0f;
-        }
-    }
+    
     DoorTrollTimer++;
     s32 index = 0;
 //print_text_fmt_int(20, 160, "DoorTrollCounter: %d", DoorTrollCounter);

@@ -894,4 +894,11 @@ o->oPosY = gMarioState->floorHeight;
     }
     */
 
-//void bhv_
+void bhv_blow_up_col(void){
+u8 switchNum = GET_BPARAM2(o->oBehParams);
+if (pressedSwitch[switchNum] == TRUE){
+    spawn_object(o, MODEL_DREXPLOSION, bhvDRExplosion);
+    play_sound(SOUND_GENERAL_BOWSER_BOMB_EXPLOSION, o->header.gfx.cameraToObject);
+    mark_obj_for_deletion(o);
+}
+}

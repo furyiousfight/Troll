@@ -1,0 +1,15 @@
+extern const GeoLayout bulborb_geo[];
+extern Lights1 bulborb_f3dlite_material_lights;
+extern u8 bulborb_kochappy_body_s3tc_1_bti_rgba16[];
+extern Vtx bulborb_000_offset_001_mesh_layer_4_vtx_0[396];
+extern Gfx bulborb_000_offset_001_mesh_layer_4_tri_0[];
+extern Vtx bulborb_000_offset_002_mesh_layer_4_vtx_0[14];
+extern Gfx bulborb_000_offset_002_mesh_layer_4_tri_0[];
+extern Vtx bulborb_000_offset_003_mesh_layer_4_vtx_0[13];
+extern Gfx bulborb_000_offset_003_mesh_layer_4_tri_0[];
+extern Gfx mat_bulborb_f3dlite_material[];
+extern Gfx mat_revert_bulborb_f3dlite_material[];
+extern Gfx bulborb_000_offset_001_mesh_layer_4[];
+extern Gfx bulborb_000_offset_002_mesh_layer_4[];
+extern Gfx bulborb_000_offset_003_mesh_layer_4[];
+extern Gfx bulborb_material_revert_render_settings[];

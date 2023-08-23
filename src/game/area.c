@@ -860,9 +860,9 @@ Vtx *MinecraftLoadingBar = segmented_to_virtual(&MinecraftLoad_LoadingScreen_mes
         }
         if (PrintTroll == TRUE){
             gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
-            gDPSetEnvColor(gDisplayListHead++, 0x36, 0x45, 0x4F, TextAlpha);
+            gDPSetEnvColor(gDisplayListHead++, 0x6E, 0x26, 0x0E, TextAlpha);
             print_generic_string(6,39,Door_Troll_Array[TrollNum]);
-            gDPSetEnvColor(gDisplayListHead++, 0xA6, 0xD9, 0xF1, TextAlpha);
+            gDPSetEnvColor(gDisplayListHead++, 0xFF, 0x73, 0x77, TextAlpha);
             print_generic_string(5,40,Door_Troll_Array[TrollNum]);
         }
         if (DoorTrollTimer <= 3){
@@ -1566,7 +1566,7 @@ void render_lego_transition(void){
             break;
         case 5:
             play_transition(WARP_TRANSITION_FADE_FROM_COLOR, 0x14, 0xFF, 0xFF, 0xFF);
-            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_GRASS), 0);
+            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_STREAMED_IMPACTSITE), 0);
             legoState = 6;
             break;
         case 6:

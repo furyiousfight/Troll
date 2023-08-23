@@ -1266,6 +1266,10 @@ s32 lvl_init_or_update(s16 initOrUpdate, UNUSED s32 unused) {
     return (initOrUpdate ? update_level() : init_level());
 }
 
+void end_screen_play_music(void){
+    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_STREAMED_FISHING), 0);
+}
+
 #if MULTILANG
 void load_language_text(void) {
     switch (gInGameLanguage - 1) {
